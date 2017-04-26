@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+body {
+  margin: 1em;
+  padding: 0em;
+  font-family: monospace;
+}
+
+sausage {
+    display:block;
+    margin:0;
+    padding:0;
+    border:0;
+}
