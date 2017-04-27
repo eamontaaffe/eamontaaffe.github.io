@@ -7,23 +7,31 @@ import SubFolder from '../components/SubFolder';
 import LastSubFolder from '../components/LastSubFolder';
 
 class App extends Component {
-    render() {
 
-	// You can use the aws-sdk package to access s3 bucket objects
-	// once you have the bucket objects, you can create the folder list dynamically
+    renderDir(dir, id=1, level=0) {
+	const head = dir.find(dir => dir.id === id)
+	const contents = head.contents || []
+
+	return contents.reduce((acc, val) =>
+			       acc.concat(
+				   this.renderDir(dir, val, level+1)),
+			       [(<Folder
+				 name={head.name}
+				 key={head.id}
+				 level={level}
+				 />)])
 	
-   return (
-	<div className="App" >
-	    {"This is Eamon's website..."} <br/>
-            {"============================================"} <br/>
-            <Folder name="home" /><br/>
-            <SubFolder name="about" /><br/>
-	    <SubFolder name="blog" /><br/>
-	    <SubFolder name="books" /><br/>
-	   <LastSubFolder name="podcasts" /><br/>
-	</div>
-    );
-  }
+    }
+    
+    render() {	
+	return (
+		<div className="App" >
+		{"This is Eamon's website..."} <br/>
+		{"============================================"} <br/>
+		{this.renderDir(this.props.dir)}
+		</div>
+	);
+    }
 }
 
 function mapStateToProps(state) {

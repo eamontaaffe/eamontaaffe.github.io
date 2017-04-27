@@ -8,7 +8,8 @@ const initialState = {
 	},
 	{
 	    id: 2,
-	    name: "about"
+	    name: "about",
+	    contents: [6,7]
 	},
 	{
 	    id: 3,
@@ -21,6 +22,19 @@ const initialState = {
 	{
 	    id: 5,
 	    name: "podcasts",
+	},
+	{
+	    id: 6,
+	    name: "subfolder 1",
+	},
+	{
+	    id: 7,
+	    name: "subfolder 2",
+	    contents: [8]
+	},
+	{
+	    id: 8,
+	    name: "florence"
 	}
     ]
 }
