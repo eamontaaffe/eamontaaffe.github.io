@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import marked from 'marked';
 
-import Folder from './folder';
-import SubFolder from './subfolder';
-import LastSubFolder from './lastsubfolder';
+import Folder from '../components/Folder';
+import SubFolder from '../components/SubFolder';
+import LastSubFolder from '../components/LastSubFolder';
 
 class App extends Component {
     render() {
@@ -19,10 +20,15 @@ class App extends Component {
             <SubFolder name="about" /><br/>
 	    <SubFolder name="blog" /><br/>
 	    <SubFolder name="books" /><br/>
-	    <LastSubFolder name="podcasts" /><br/>
+	   <LastSubFolder name="podcasts" /><br/>
 	</div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+    const { dir } = state
+    return { dir }
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Folder from './folder';
+import Folder from './Folder';
 
 const SubFolder = (props) => (
     <span className="SubFolder">
