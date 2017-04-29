@@ -1,19 +1,14 @@
-import React, { Component } from 'react'
-
-
-function prefix(level) {
-    switch (level) {
-    case 0:
-	return ""
-    default:
-	return ("│ ".repeat(level-1) + "├── ")
-    }
-}
+import React from 'react';
+import {Link} from 'react-router';
 
 const Folder = (props) => {
     return (
-	<span className="Folder">
-	{prefix(props.level)}<a href="#">{props.name}/</a><br />
+	    <span className={"Folder"}>
+	    <li className={`Folder${props.isLast ? " Folder-last":""}`}>
+	    <Link to={props.path}>{props.name}
+	</Link>
+	    </li>
+	    {props.children}
 	</span>
     )
 }

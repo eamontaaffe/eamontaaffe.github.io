@@ -6,9 +6,94 @@ body {
   font-family: monospace;
 }
 
-sausage {
-    display:block;
-    margin:0;
-    padding:0;
-    border:0;
+.Directory ul {
+    list-style: none;
+    padding: 0px;
+}
+
+ul ul li.Folder:before {
+    content: "\00a0\00a0├── "
+}
+
+ul ul li.Folder-last:before {
+    content: "\00a0\00a0└── "
+}
+
+ul ul ul li.Folder:before {
+    content: "\00a0\00a0|\00a0\00a0\00a0\00a0\00a0├── "
+}
+
+ul ul ul li.Folder-last:before {
+    content: "\00a0\00a0|\00a0\00a0\00a0\00a0\00a0└── "
+}
+
+ul ul ul ul li.Folder:before {
+    content: "\00a0\00a0|\00a0\00a0\00a0\00a0\00a0|\00a0\00a0\00a0\00a0\00a0├── "
+}
+
+ul ul ul ul li.Folder-last:before {
+    content: "\00a0\00a0|\00a0\00a0\00a0\00a0\00a0|\00a0\00a0\00a0\00a0\00a0└── "
+}
+
+div.Post {
+    margin-bottom: 40px;
+}
+
+ul.Posts {
+    list-style: none;
+    padding-left: 0px;
+}
+
+div.Post h1, div.Post h2, div.Post h3, div.Post h4 {
+    font-size: 1em;
+}
+
+div.Post h1:before {
+    content: "# "
+}
+
+div.Post h2:before {
+    content: "## "
+}
+
+div.Post h3:before {
+    content: "### "
+}
+
+div.Post h4:before {
+    content: "#### "
+}
+
+div.Post strong:before {
+    content: "**"
+}
+
+div.Post strong:after {
+    content: "**"
+}
+
+div.Post em:before {
+    content: "*"
+}
+
+div.Post em:after {
+    content: "*"
+}
+
+.Post span.key {
+    color: DarkRed;
+}
+
+.BookList {
+    list-style: none;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.Book {
+    width: 9em;
+    height: 12em;
+    padding: 0px;
+    margin: 10px;
 }
