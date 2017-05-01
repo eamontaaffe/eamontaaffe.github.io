@@ -87,7 +87,12 @@ const initialPodcasts = [
     },
 ]
 
-import { REQUEST_ABOUT, RECEIVE_ABOUT } from './actions';
+import {
+    REQUEST_ABOUT,
+    RECEIVE_ABOUT,
+    REQUEST_POSTS,
+    RECEIVE_POST,
+} from './actions';
 import { combineReducers } from 'redux';
 
 function about(state = initialAbout, action) {
@@ -117,7 +122,28 @@ function books(state=initialBooks, action) {
 }
 
 function posts(state=initialPosts, action) {
-    return state
+    switch (action.type) {
+    case REQUEST_POSTS:
+	return {
+	    isFetching: true,
+	    content: [],
+	};
+    case RECEIVE_POST:
+	const post = {
+	    title: action.title,
+	    date: action.date,
+	    content: action.content,
+	}
+	return {
+	    isFetching: false,
+	    content: [
+		...state.content,
+		post,
+	    ],
+	};
+    default:
+	return state;
+    }
 }
 
 function dir(state=initialDir, action) {

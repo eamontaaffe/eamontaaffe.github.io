@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux';
 
-import Posts from '../components/Posts'
+import { fetchPosts } from '../actions/';
+import Posts from '../components/Posts';
 
-const Blog = (props) => (
-	<div className="Blog">
-	<Posts posts={props.posts} />
-	</div>
-)
+class Blog extends Component {
+    componentDidMount() {
+	const { dispatch } = this.props
+	dispatch(fetchPosts())
+    }
+
+    render() {
+	return (
+		<div className="Blog">
+		<Posts posts={this.props.content} />
+		</div>
+	)
+    }
+}
+
 
 const mapStateToProps = (state) => {
     const { posts } = state
     return {
-	posts: posts
+	...posts,
     }
 }
 

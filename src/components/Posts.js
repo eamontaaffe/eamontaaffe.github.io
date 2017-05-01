@@ -4,7 +4,7 @@ import Post from './Post';
 
 const Posts = (props) => (
 	<ul className="Posts">
-	{props.posts.map((post, i) =>(
+	{props.posts.map((post, i) => (
 		<Post
 	    key={i}
 	    title={post.title}

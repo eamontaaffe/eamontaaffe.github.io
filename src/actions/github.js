@@ -1,0 +1,19 @@
+import GitHub from 'github-api';
+
+const GITHUB_USER = "eamontaaffe";
+const GITHUB_REPO = "content";
+const GITHUB_REF = "master";
+
+export const ABOUT_PATH = "about.md";
+export const POSTS_PATH = "blog/";
+
+const gh = new GitHub()
+const repo = gh.getRepo(GITHUB_USER, GITHUB_REPO);
+
+export const aboutPromise = repo.getContents(GITHUB_REF, ABOUT_PATH);
+export const postsPromise = repo.getContents(GITHUB_REF, POSTS_PATH);
+
+export function contentPromise(path) {
+    return repo.getContents(GITHUB_REF, path);
+}
+

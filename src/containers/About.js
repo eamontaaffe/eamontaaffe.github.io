@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import marked from 'marked';
 import { connect } from 'react-redux';
 
-import { fetchAbout } from '../actions'
+import { fetchAbout } from '../actions/'
 
 class About extends  Component {
     componentDidMount() {
@@ -14,7 +14,7 @@ class About extends  Component {
 	return (
 		<div
 	    className="About"
-	    dangerouslySetInnerHTML={{__html: marked(this.props.about.content)}}
+	    dangerouslySetInnerHTML={{__html: marked(this.props.content)}}
 		/>
 	)
     }
@@ -23,7 +23,7 @@ class About extends  Component {
 const mapStateToProps = (state) => {
     const { about } = state
     return {
-	about
+	...about,
     }
 }
 
