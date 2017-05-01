@@ -97,3 +97,7 @@ div.Book {
     padding: 0px;
     margin: 10px;
 }
+
+.Header {
+    line-height: 1em;
+}

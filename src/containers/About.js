@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import marked from 'marked';
 import { connect } from 'react-redux';
 
-const About = (props) => (
-	<div
-    className="About"
-    dangerouslySetInnerHTML={{__html: marked(props.about)}}
-	/>
-)
+import { fetchAbout } from '../actions'
+
+class About extends  Component {
+    componentDidMount() {
+	const { dispatch } = this.props
+	dispatch(fetchAbout())
+    }
+
+    render() {
+	return (
+		<div
+	    className="About"
+	    dangerouslySetInnerHTML={{__html: marked(this.props.about.content)}}
+		/>
+	)
+    }
+}
 
 const mapStateToProps = (state) => {
     const { about } = state

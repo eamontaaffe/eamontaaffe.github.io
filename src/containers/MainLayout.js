@@ -9,7 +9,7 @@ const MainLayout = (props) => {
     const heading = `This is Eamon's ${name}.`
     return (
 	    <div className="MainLayout">
-	    <Header heading={heading}/>
+	    <Header heading={heading} pathname={props.location.pathname} />
 	    {props.children}
             <Footer />
 	    </div>

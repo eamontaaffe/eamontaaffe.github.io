@@ -8,6 +8,7 @@ import App from './App';
 import Blog from './Blog';
 import About from './About';
 import Books from './Books';
+import Podcasts from './Podcasts';
 
 const store = configureStore();
 
@@ -19,6 +20,7 @@ const Root = () => (
 	<Route path="/blog" component={Blog} />
 	<Route path="/about" component={About} />
 	<Route path="/books" component={Books} />
+	<Route path="/podcasts" component={Podcasts} />
 	</Route>
 	</Router>
 	</Provider>

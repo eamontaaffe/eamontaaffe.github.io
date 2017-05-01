@@ -1,4 +1,4 @@
-const dir = [
+const initialDir = [
     {
 	id: 1,
 	name: "/",
@@ -23,34 +23,17 @@ const dir = [
     },
 ]
 
-const posts = [
-    {
-	title: "Luigi execution order",
-	date: (new Date(2017,2,13)).toJSON(),
-	content: "# Luigi execution order\n" +
-	    "Disrupt craft beer twee **wolf**. Keytar XOXO deep v wayfarers. Kale chips poke woke brunch iceland, *bespoke banh mi* cred jianbing man braid ramps iPhone franzen tofu. `Lumbersexual` swag aesthetic, thundercats mixtape letterpress tousled butcher keffiyeh sustainable slow-carb cornhole normcore. Bushwick quinoa kickstarter deep v normcore taxidermy. Fixie cronut glossier, tbh austin health goth small batch irony snackwave fam taxidermy narwhal tilde umami before they sold out. Air plant pabst single-origin coffee, cred authentic blue bottle iPhone twee.\n\n" +
+const initialPosts = {
+    isFetching: false,
+    content: [],
+}
 
-"Fixie stumptown hashtag raclette, tousled truffaut intelligentsia tattooed messenger bag lumbersexual banjo biodiesel tumblr. Lomo kickstarter pour-over, 8-bit messenger bag vexillologist af paleo truffaut coloring book hell of. Pinterest lumbersexual street art, chia scenester pabst everyday carry vape tumeric. Small batch health goth offal meditation raclette, dreamcatcher leggings. Cardigan taxidermy YOLO la croix try-hard authentic. 8-bit food truck sriracha post-ironic retro next level, skateboard kickstarter leggings brunch lyft. Portland lyft blue bottle wolf locavore."
-    },
-    {
-	title: "Elixir GenServer breakdown",
-	date: (new Date(2017,2,13)).toJSON(),
-	content: "# Elixir GenServer breakdown\n" +
-	    "Disrupt craft beer twee wolf. Keytar XOXO deep v wayfarers. Kale chips poke woke brunch iceland, bespoke banh mi cred jianbing man braid ramps iPhone franzen tofu. Lumbersexual swag aesthetic, thundercats mixtape letterpress tousled butcher keffiyeh sustainable slow-carb cornhole normcore. Bushwick quinoa kickstarter deep v normcore taxidermy. Fixie cronut glossier, tbh austin health goth small batch irony snackwave fam taxidermy narwhal tilde umami before they sold out. Air plant pabst single-origin coffee, cred authentic blue bottle iPhone twee.\n\n" +
+const initialAbout = {
+    isFetching: false,
+    content: "",
+}
 
-"```\n# Heading\nThis is some content\n`syntax`\n```\n" +
-
-"Fixie stumptown hashtag raclette, tousled truffaut intelligentsia tattooed messenger bag lumbersexual banjo biodiesel tumblr. Lomo kickstarter pour-over, 8-bit messenger bag vexillologist af paleo truffaut coloring book hell of. Pinterest lumbersexual street art, chia scenester pabst everyday carry vape tumeric. Small batch health goth offal meditation raclette, dreamcatcher leggings. Cardigan taxidermy YOLO la croix try-hard authentic. 8-bit food truck sriracha post-ironic retro next level, skateboard kickstarter leggings brunch lyft. Portland lyft blue bottle wolf locavore."
-    },
-]
-
-const about = "" +
-      "Hi, I'm Eamon.\n\nI'm a software developer out of Melbourne, Australia.\n" +
-      "\n\nmail: [eamon@taaffe.com.au](mailto:eamon@taaffe.com.au)<br />" + 
-      "linkedin: [Eamon Taaffe](http://linkedin.com/in/eamontaaffe)<br />" +
-      "github: [eamontaaffe](http://github.com/eamontaaffe)"
-
-const books = [
+const initialBooks = [
     {
 	title: "The Lean Startup",
 	author: "Eric Ries",
@@ -83,15 +66,70 @@ const books = [
     },
 ]
 
-const initialState = {
+const initialPodcasts = [
+    {
+	name: "#95 Silence in the Sky",
+	producer: "Reply All",
+	length: "0:45:32",
+	link: "https://gimletmedia.com/episode/95-the-silence-in-the-sky/",
+    },
+    {
+	name: "Funnky Hand Jive",
+	producer: "Radiolab",
+	length: "0:28:46",
+	link: "http://www.radiolab.org/story/funky-hand-jive/",
+    },
+    {
+	name: "The Honky Tonk Nun",
+	producer: "Seriously",
+	length: "1:15:02",
+	link: "http://www.bbc.co.uk/programmes/p0512ywc",
+    },
+]
+
+import { REQUEST_ABOUT, RECEIVE_ABOUT } from './actions';
+import { combineReducers } from 'redux';
+
+function about(state = initialAbout, action) {
+    switch (action.type) {
+    case REQUEST_ABOUT:
+	return {
+	    ...state,
+	    isFetching: true
+	}
+    case RECEIVE_ABOUT:
+	return {
+	    ...state,
+	    isFetching: false,
+	    content: action.content,
+	}
+    default:
+	return state
+    }
+}
+
+function podcasts(state=initialPodcasts, action) {
+    return state
+}
+
+function books(state=initialBooks, action) {
+    return state
+}
+
+function posts(state=initialPosts, action) {
+    return state
+}
+
+function dir(state=initialDir, action) {
+    return state
+}
+
+const rootReducer = combineReducers({
     dir,
     posts,
     about,
     books,
-}
-
-const rootReducer = (state = initialState, action) => {
-    return state;
-}
+    podcasts,
+})
 
 export default rootReducer;
