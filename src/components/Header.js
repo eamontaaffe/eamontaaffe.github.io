@@ -3,12 +3,8 @@ import { Link } from 'react-router';
 
 const headingWidth = 45;
 
-function fillArray(value, len) {
-  var arr = [];
-  for (var i = 0; i < len; i++) {
-    arr.push(value);
-  }
-  return arr;
+function asciiGap(len) {
+    return "\u200B\u00A0".repeat(len)
 }
 
 function renderLink(pathname, heading) {
@@ -17,7 +13,7 @@ function renderLink(pathname, heading) {
     }
     return (
 	<span>
-	    {fillArray((<span>&#8203;&nbsp;</span>),headingWidth - heading.length - 2)}
+	    {asciiGap(headingWidth - heading.length - 2)}
 	    <Link to="/">{"↩"}</Link>
 	</span>
     )
