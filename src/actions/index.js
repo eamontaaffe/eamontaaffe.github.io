@@ -1,5 +1,5 @@
 import { fetchAbout, RECEIVE_ABOUT, REQUEST_ABOUT } from './about';
-import { fetchPosts, REQUEST_POSTS, RECEIVE_POST } from './blog';
+import { fetchPosts, REQUEST_POSTS, RECEIVE_POST } from './posts';
 
 export {
     fetchAbout,
