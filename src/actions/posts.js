@@ -18,20 +18,59 @@ export function receivePost(title, date, content) {
     }
 }
 
+class Post {
+    constructor(data) {
+        this.data = data;
+    }
+
+    getFileName() {
+        return this.data.name.split("_").join(" ");
+    }
+
+    getFileType() {
+        const parts = this.getParts()
+        return parts[parts.length -1]
+    }
+
+    getParts() {
+        // 2017_01_14.Elixir_GenServer_breakdown.md
+        return this.getFileName().split(".")
+    }
+
+    getTitle() {
+        return this.getParts()[1]
+    }
+
+    getDate() {
+        return new Date(this.getParts()[0].split("_").join("-"))
+    }
+
+    getContent() {
+        return atob(this.data.content)
+    }
+}
+
 function getPost(dispatch, data) {
-    const content = atob(data.content)
+    const post = new Post(data)
     dispatch(receivePost(
-	"Title",
-	"2017-02-01",
-	content,
+	post.getTitle(),
+	post.getDate(),
+	post.getContent(),
     ))
+}
+
+function getFileType(file) {
+    const parts = file.name.split(".")
+    return parts[parts.length-1]
 }
 
 function getAllPosts(dispatch, data) {
     data.forEach((file) => {
-	contentPromise(file.path)
-	    .then(response => response.data)
-	    .then(data => getPost(dispatch, data))
+        if(getFileType(file) === 'md') {
+	    contentPromise(file.path)
+	        .then(response => response.data)
+	        .then(data => getPost(dispatch, data))
+        }
     })
 }
 
