@@ -2,13 +2,15 @@ import React from 'react';
 
 import Book from './Book';
 
-const BookList = (props) => (
-	<div className="BookList">
-	{props.books.map((book, i) => 
+const BookList = ({ content }) => {
+    return (
+	    <div className="BookList">
+	    {content.map((book, i) => 
 			 <Book key={i}
 			 {...book} />
-	)}
-    </div>
-)
+	                )}
+        </div>
+    )
+}
 
 export default BookList;
