@@ -78,7 +78,7 @@ export function fetchPosts() {
     return (dispatch) => {
 	dispatch(requestPosts());
 
-	return postsPromise
+	return postsPromise()
 	    .then(response => response.data)
 	    .then(
 		data => getAllPosts(dispatch, data)

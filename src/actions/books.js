@@ -20,7 +20,7 @@ export function fetchBooks() {
     return (dispatch) => {
         dispatch(requestBooks());
 
-        return booksPromise
+        return booksPromise()
             .then(response => response.data.content)
             .then(base64 => atob(base64))
             .then(data => JSON.parse(data))
