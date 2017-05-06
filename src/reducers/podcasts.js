@@ -1,26 +1,30 @@
-const initialPodcasts = [
-    {
-	name: "#95 Silence in the Sky",
-	producer: "Reply All",
-	length: "0:45:32",
-	link: "https://gimletmedia.com/episode/95-the-silence-in-the-sky/",
-    },
-    {
-	name: "Funnky Hand Jive",
-	producer: "Radiolab",
-	length: "0:28:46",
-	link: "http://www.radiolab.org/story/funky-hand-jive/",
-    },
-    {
-	name: "The Honky Tonk Nun",
-	producer: "Seriously",
-	length: "1:15:02",
-	link: "http://www.bbc.co.uk/programmes/p0512ywc",
-    },
-]
+import {
+    REQUEST_PODCASTS,
+    RECEIVE_PODCASTS,
+} from '../actions';
+
+const initialPodcasts = {
+    isFetching: false,
+    content: [],
+}
 
 function podcasts(state=initialPodcasts, action) {
-    return state
+    switch(action.type) {
+    case REQUEST_PODCASTS:
+        return {
+            ...state,
+            isFetching: true,
+        }
+    case RECEIVE_PODCASTS:
+        return {
+            ...state,
+            isFetching: false,
+            content: action.content,
+        }
+    default:
+        return state;
+    }
+    
 }
 
 export default podcasts;

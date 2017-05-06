@@ -18,7 +18,7 @@ function books(state=initialBooks, action) {
     case RECEIVE_BOOKS:
         return {
             ...state,
-            isFetch: false,
+            isFetching: false,
             content: action.content,
         }
     default:

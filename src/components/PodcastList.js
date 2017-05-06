@@ -1,9 +1,9 @@
 import React from 'react';
 import Podcast from './Podcast';
 
-const PodcastList = ({podcasts}) => (
+const PodcastList = ({content}) => (
 	<div className="PodcastList">
-	{podcasts.map(
+	{content.map(
 	    (podcast, i) =>
 		<Podcast key={i} podcast={podcast}/>
 	)}

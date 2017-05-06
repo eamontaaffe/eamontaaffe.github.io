@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { fetchPodcasts } from '../actions';
 import PodcastList from '../components/PodcastList';
 
-const Podcasts = ({podcasts}) => (
-	<PodcastList podcasts={podcasts} />
-)
+class Podcasts extends Component {
+
+    componentDidMount() {
+        const { dispatch } = this.props
+        dispatch(fetchPodcasts())
+    }
+
+    render() {
+        return (
+	        <PodcastList {...this.props.podcasts} />
+        )
+    }
+}
 
 const mapStateToProps = (state) => {
     const {podcasts} = state;
