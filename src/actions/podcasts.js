@@ -20,7 +20,7 @@ export function fetchPodcasts(dispatch) {
     return (dispatch) => {
         dispatch(requestPodcasts());
 
-        return podcastsPromise
+        return podcastsPromise()
             .then(response => response.data.content)
             .then(base64 => atob(base64))
             .then(data => JSON.parse(data))

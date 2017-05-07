@@ -13,7 +13,7 @@ class Blog extends Component {
     render() {
 	return (
 		<div className="Blog">
-		<Posts posts={this.props.content} />
+		<Posts {...this.props.posts} />
 		</div>
 	)
     }
@@ -23,7 +23,7 @@ class Blog extends Component {
 const mapStateToProps = (state) => {
     const { posts } = state
     return {
-	...posts,
+	posts,
     }
 }
 
