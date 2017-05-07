@@ -101,3 +101,7 @@ div.Book {
 .Header {
     line-height: 1em;
 }
+
+.hljs {
+    background: white;
+}
