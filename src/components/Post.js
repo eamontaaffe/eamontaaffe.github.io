@@ -1,11 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import marked from 'marked';
+
+import Markdown from './Markdown';
 
 const Post = (props) => {
     const date = moment(props.date)
     const dateString = date.format('MMMM Do YYYY')
-    const content = {__html: marked(props.content)}
+    
 
     return (
 	    <div className="Post">
@@ -16,7 +17,7 @@ const Post = (props) => {
 	    <div className="date">
 	    <span className="key">Date:</span> {dateString}</div>
 	    ---<br/>
-	    <div className="content" dangerouslySetInnerHTML={content}/>
+	    <Markdown content={props.content} />
 	    </div>
     )
 }
