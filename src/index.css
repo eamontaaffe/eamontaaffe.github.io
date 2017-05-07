@@ -44,9 +44,9 @@ ul.Posts {
     padding-left: 0px;
 }
 
-div.Post h1, div.Post h2, div.Post h3, div.Post h4 {
-    font-size: 1em;
-}
+/* div.Post h1, div.Post h2, div.Post h3, div.Post h4 { */
+/*     font-size: 1em; */
+/* } */
 
 div.Post h1:before {
     content: "# "

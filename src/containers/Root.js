@@ -6,7 +6,7 @@ import configureStore from '../configureStore';
 import MainLayout from './MainLayout'
 import App from './App';
 import Blog from './Blog';
-import About from './About';
+import AboutContainer from './AboutContainer';
 import Books from './Books';
 import Podcasts from './Podcasts';
 
@@ -18,7 +18,7 @@ const Root = () => (
 	<Route component={MainLayout}>
 	<Route path="/" component={App} />
 	<Route path="/blog" component={Blog} />
-	<Route path="/about" component={About} />
+	<Route path="/about" component={AboutContainer} />
 	<Route path="/books" component={Books} />
 	<Route path="/podcasts" component={Podcasts} />
 	</Route>

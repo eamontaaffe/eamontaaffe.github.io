@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import marked from 'marked';
 import { connect } from 'react-redux';
 
+import About from '../components/About';
 import { fetchAbout } from '../actions/'
 
-class About extends  Component {
+class AboutContainer extends  Component {
     componentDidMount() {
 	const { dispatch } = this.props
 	dispatch(fetchAbout())
@@ -12,10 +12,7 @@ class About extends  Component {
 
     render() {
 	return (
-		<div
-	    className="About"
-	    dangerouslySetInnerHTML={{__html: marked(this.props.content)}}
-		/>
+		<About {...this.props.about} />
 	)
     }
 }
@@ -23,8 +20,8 @@ class About extends  Component {
 const mapStateToProps = (state) => {
     const { about } = state
     return {
-	...about,
+	about,
     }
 }
 
-export default connect(mapStateToProps)(About);
+export default connect(mapStateToProps)(AboutContainer);

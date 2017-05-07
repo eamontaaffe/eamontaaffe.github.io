@@ -20,7 +20,7 @@ export function fetchAbout() {
     return (dispatch) => {
 	dispatch(requestAbout());
 
-	return aboutPromise
+	return aboutPromise()
 	    .then(response => response.data)
 	    .then(
 		data => {
