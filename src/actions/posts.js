@@ -65,7 +65,7 @@ function getFileType(file) {
 }
 
 function getAllPosts(dispatch, data) {
-    data.forEach((file) => {
+    data.reverse().forEach((file) => {
         if(getFileType(file) === 'md') {
 	    contentPromise(file.path)
 	        .then(response => response.data)
