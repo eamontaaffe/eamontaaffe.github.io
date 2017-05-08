@@ -95,7 +95,8 @@ div.Book {
     width: 9em;
     height: 12em;
     padding: 0px;
-    margin: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .Header {
