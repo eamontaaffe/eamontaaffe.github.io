@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
 
-const Footer = () => (
+const footerWidth = 60
+
+const Footer = ({ pathname }) => (
 	<div className="Footer">
 	<hr style={{height:"0pt", visibility:"hidden"}} />
-	------<br/>
-	<Link to="/">{"↩"}</Link>
+	<span className="nowrap">{"-".repeat(footerWidth)}</span>
+        <br/>
 	</div>
 )
 

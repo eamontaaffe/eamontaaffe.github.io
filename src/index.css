@@ -105,3 +105,12 @@ div.Book {
 .hljs {
     background: white;
 }
+
+.MainLayout {
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
