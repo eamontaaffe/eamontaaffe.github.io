@@ -17,7 +17,7 @@ function renderLink(pathname, heading) {
 const Header = ({heading, pathname}) => (
 	<div className="Header">
 	{heading}{""}{renderLink(pathname, heading)}<br/>
-	<span className="nowrap">{"=".repeat(headingWidth)}</span>
+	<span className="nowrap">{"-".repeat(headingWidth)}</span>
         <br/>
 	</div>
 )
