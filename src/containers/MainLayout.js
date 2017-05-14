@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -16,4 +17,4 @@ const MainLayout = (props) => {
     )
 }
 
-export default MainLayout
+export default withRouter(MainLayout);

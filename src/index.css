@@ -9,6 +9,7 @@ body {
 .Directory ul {
     list-style: none;
     padding: 0px;
+    margin: 0px;
 }
 
 ul ul li.Folder:before {
@@ -82,6 +83,10 @@ div.Post em:after {
 
 .Post span.key {
     color: blue;
+}
+
+ul.Posts {
+    margin: 0;
 }
 
 .BookList {
