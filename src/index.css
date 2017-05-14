@@ -123,14 +123,16 @@ div.Book {
 
 code.hljs {
     padding: 0;
-    border: 0;
 }
 
-code {
+code:not(.hljs) {
     color: #e81e1e;
-    background: #EEEEEE;
-    border: #DDDDDD solid 1px;
-    border-radius: 3px;
-    padding-left: 2px;
-    padding-right: 2px;
+}
+
+code:not(.hljs):before {
+    content: "`"
+}
+
+code:not(.hljs):after {
+    content: "`"
 }
