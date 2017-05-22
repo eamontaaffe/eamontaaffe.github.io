@@ -9,12 +9,13 @@ export function requestPosts() {
     }
 }
 
-export function receivePost(title, date, content) {
+export function receivePost(title, date, content, id) {
     return {
 	type: RECEIVE_POST,
 	title,
 	date,
 	content,
+        id,
     }
 }
 
@@ -48,6 +49,11 @@ class Post {
     getContent() {
         return atob(this.data.content)
     }
+
+    getId() {
+        const parts = this.data.name.split(".")
+        return parts.slice(0,2).join("_")
+    }
 }
 
 function getPost(dispatch, data) {
@@ -56,6 +62,7 @@ function getPost(dispatch, data) {
 	post.getTitle(),
 	post.getDate(),
 	post.getContent(),
+        post.getId(),
     ))
 }
 

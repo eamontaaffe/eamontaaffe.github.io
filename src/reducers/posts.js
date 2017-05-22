@@ -20,6 +20,7 @@ function posts(state=initialPosts, action) {
 	    title: action.title,
 	    date: action.date,
 	    content: action.content,
+            id: action.id,
 	}
 	return {
 	    isFetching: false,
