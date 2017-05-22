@@ -132,6 +132,8 @@ code.hljs {
 
 code:not(.hljs) {
     color: #e81e1e;
+    background: rgba(232,30,30, 0.1);
+    border-radius: 4px;
 }
 
 code:not(.hljs):before {
