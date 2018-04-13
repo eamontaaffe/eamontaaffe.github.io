@@ -1,0 +1,19 @@
+{
+  "name": "eamons-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eamontaaffe/eamontaaffe.github.io.git"
+  },
+  "author": "Eamon Taaffe",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/eamontaaffe/eamontaaffe.github.io/issues"
+  },
+  "homepage": "https://github.com/eamontaaffe/eamontaaffe.github.io#readme"
+}
