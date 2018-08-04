@@ -3,12 +3,21 @@
   "description": "Gatsby hello world starter",
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve"
+    "gatsby:develop": "gatsby develop",
+    "gatsby:build": "gatsby build",
+    "gatsby:serve": "gatsby serve",
+    "reason:build": "bsb -make-world",
+    "reason:watch": "bsb -make-world",
+    "reason:clean": "bsb -clean-world"
   },
   "dependencies": {
     "gatsby": "^1.9.277",
-    "gatsby-link": "^1.6.46"
+    "gatsby-link": "^1.6.46",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reason-react": ">=0.4.0"
+  },
+  "devDependencies": {
+    "bs-platform": "^3.1.5"
   }
 }

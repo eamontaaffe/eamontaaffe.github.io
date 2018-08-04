@@ -60,3 +60,11 @@ typings/
 .cache/
 public
 yarn-error.log
+
+
+# ReasonML stuff
+.DS_Store
+.merlin
+.bsb.lock
+npm-debug.log
+/lib/bs/
