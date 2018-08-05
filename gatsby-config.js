@@ -1,4 +1,7 @@
 module.exports = {
+  siteMetadata: {
+    title: 'Eamon',
+  },
   plugins: [
     'gatsby-transformer-yaml',
     {

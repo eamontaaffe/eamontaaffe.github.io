@@ -12,9 +12,12 @@
     "subdirs" : true
   },
   "package-specs": [{
-    "module": "commonjs",
+    "module": "es6-global",
     "in-source": true
   }],
+  "ppx-flags": [
+    "graphql_ppx/ppx"
+  ],
   "suffix": ".js",
   "namespace": true,
   "bs-dependencies": [
