@@ -4,7 +4,6 @@ module Site (run) where
 
 
 --------------------------------------------------------------------------------
-import           Data.Monoid (mappend)
 import           Hakyll
 
 
