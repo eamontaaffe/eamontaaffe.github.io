@@ -1,14 +1,16 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
-import           Data.Binary
-import           Data.Typeable
+module Site (run) where
 
 
 --------------------------------------------------------------------------------
-main :: IO ()
-main = hakyll $ do
+import           Data.Monoid (mappend)
+import           Hakyll
+
+
+--------------------------------------------------------------------------------
+run :: IO ()
+run = hakyll $ do
     create ["index.html"] $ do
       route idRoute
       compile hello
@@ -22,13 +24,12 @@ main = hakyll $ do
 
 
 --------------------------------------------------------------------------------
-compileAggregate :: (Typeable b, Binary b)
-                 => (a -> (Item b) -> a) -> a -> Compiler (Item a)
+compileAggregate :: (String -> (Item String) -> String)
+                 -> String -> Compiler (Item String)
 compileAggregate fn x = do
   events <- loadAll "events/*"
   makeItem $ foldl fn x events
 
--- foldM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b 
 
 --------------------------------------------------------------------------------
 hello :: Compiler (Item String)
@@ -41,10 +42,6 @@ about :: String -> (Item String) -> String
 about acc x =
   acc ++ itemBody x
 
-
--- thing :: (Item String) -> Maybe String
--- thing a = do
---   Maybe.fromMaybe "Nope!" $ getMetadataField (getUnderlying a) "title"
 
 initialAbout :: String
 initialAbout =
