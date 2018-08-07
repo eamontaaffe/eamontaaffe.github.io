@@ -5,7 +5,6 @@ module Aggregate where
 
 import Hakyll
 import Control.Monad.State
-import Data.Functor.Identity (Identity)
 import Data.Maybe
 
 

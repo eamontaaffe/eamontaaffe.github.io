@@ -19,7 +19,7 @@ aggregate =
 
 initial :: State
 initial =
-  State 0 "There's nothing here..."
+  State (-1) "There's nothing here..."
 
 
 reduceFn :: State -> Event -> State
