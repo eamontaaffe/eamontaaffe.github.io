@@ -6,63 +6,53 @@ module Aggregate where
 import Hakyll
 import Control.Monad.State
 import Data.Functor.Identity (Identity)
+import Data.Maybe
 
 
-compiler :: Compiler (Item String)
-compiler =
-  evalStateT (build events) initialAbout
+compiler :: Aggregate(a) -> Compiler (Item String)
+compiler Aggregate{ reduce=r, final=f, initialState=i } =
+  evalStateT (build r f) i
+
 
 --------------------------------------------------------------------------------
 
-data AboutState =
-  AboutState { edits :: Integer
-             , body  :: String
-             }
-  deriving (Show)
-
-
-initialAbout :: AboutState
-initialAbout =
-  AboutState 0 "There's nothing here..."
-
-
-data EventType
-  = About
-  | Run
-  deriving (Show)
-
+data Aggregate(a) =
+  Aggregate { reduce      :: a -> Event -> a
+            , final       :: a -> String
+            , initialState :: a
+            }
 
 data Event =
-  Event { type_ :: EventType
+  Event { type_ :: String
         , body  :: String
         }
   deriving (Show)
 
-
-events :: [Event]
-events =
-  [ Event About "Hi, I'm Eamon!"
-  , Event Run "I ran 10.2km today."
-  ]
-
-
-reduce :: Event -> StateT AboutState Compiler ()
-reduce (Event {type_=About, body=b}) = state $
-  \about@(AboutState {edits=e}) ->
-    ((), about { edits=e+1, body=b })
-reduce _ = state $
-  \s -> ((), s)
+build :: (a -> Event -> a) -> (a -> String) -> StateT a Compiler (Item String)
+build rn fn = do
+  items     <- lift . loadAll $ "events/*"
+  metadatas <- lift . getAllMetadata $ "events/*"
+  aboutItem <- traverse (handle rn) (zip items metadatas) >> (finish fn)
+  lift . makeItem $ aboutItem
 
 
-final :: StateT AboutState Compiler String
-final = state $
-  \about@(AboutState { body=b, edits=e }) ->
-    (b ++ "\nEdits: " ++ show e, about)
+handle :: (a -> Event -> a) -> ((Item String), (Identifier, Metadata))
+       -> StateT a Compiler ()
+handle fn (i,(_, m)) =
+  state $ \s -> ((), fn s event)
+  where
+    event =
+      Event { type_ = unpackEventType m
+            , body  = itemBody i
+            }
+
+unpackEventType :: Metadata -> String
+unpackEventType m =
+  fromMaybe "undefined" (lookupString "type" m)
+
+finish :: (a -> String) -> StateT a Compiler String
+finish fn =
+  state $ \s -> (fn s, s)
 
 
-build :: [Event] -> StateT AboutState Compiler (Item String)
-build xs = do
-  traverse reduce xs
-  i <- final
-  lift $ makeItem i
-  
+--------------------------------------------------------------------------------

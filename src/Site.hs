@@ -6,6 +6,7 @@ module Site (run) where
 --------------------------------------------------------------------------------
 import           Hakyll
 import qualified Aggregate as Aggregate
+import qualified About as About
 
 
 --------------------------------------------------------------------------------
@@ -20,29 +21,10 @@ run = hakyll $ do
 
     create ["about.html"] $ do
       route idRoute
-      compile Aggregate.compiler
-
-
---------------------------------------------------------------------------------
-compileAggregate :: (String -> (Item String) -> String)
-                 -> String -> Compiler (Item String)
-compileAggregate fn x = do
-  events <- loadAll "events/*"
-  makeItem $ foldl fn x events
+      compile $ Aggregate.compiler About.aggregate
 
 
 --------------------------------------------------------------------------------
 hello :: Compiler (Item String)
 hello =
   makeItem "Yo!"
-
-
---------------------------------------------------------------------------------
-about :: String -> (Item String) -> String
-about acc x =
-  acc ++ itemBody x
-
-
-initialAbout :: String
-initialAbout =
-  ""
