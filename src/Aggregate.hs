@@ -5,11 +5,12 @@ module Aggregate where
 
 import Hakyll
 import Control.Monad.State
+import Data.Functor.Identity (Identity)
 
 
 compiler :: Compiler (Item String)
 compiler =
-  undefined
+  evalStateT (build events) initialAbout
 
 --------------------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ events =
   ]
 
 
-reduce :: Event -> State AboutState ()
+reduce :: Event -> StateT AboutState Compiler ()
 reduce (Event {type_=About, body=b}) = state $
   \about@(AboutState {edits=e}) ->
     ((), about { edits=e+1, body=b })
@@ -53,12 +54,15 @@ reduce _ = state $
   \s -> ((), s)
 
 
-final :: State AboutState String
+final :: StateT AboutState Compiler String
 final = state $
   \about@(AboutState { body=b, edits=e }) ->
     (b ++ "\nEdits: " ++ show e, about)
 
 
-runAgg :: [Event] -> AboutState -> (String, AboutState)
-runAgg xs =
-  runState $ traverse reduce xs >> final
+build :: [Event] -> StateT AboutState Compiler (Item String)
+build xs = do
+  traverse reduce xs
+  i <- final
+  lift $ makeItem i
+  

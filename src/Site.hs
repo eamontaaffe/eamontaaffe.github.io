@@ -5,6 +5,7 @@ module Site (run) where
 
 --------------------------------------------------------------------------------
 import           Hakyll
+import qualified Aggregate as Aggregate
 
 
 --------------------------------------------------------------------------------
@@ -19,7 +20,7 @@ run = hakyll $ do
 
     create ["about.html"] $ do
       route idRoute
-      compile $ compileAggregate about initialAbout
+      compile Aggregate.compiler
 
 
 --------------------------------------------------------------------------------
