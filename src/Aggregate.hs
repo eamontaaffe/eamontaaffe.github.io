@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 module Aggregate where
 
 
@@ -12,22 +13,52 @@ compiler =
 
 --------------------------------------------------------------------------------
 
-type Ag = String
+data AboutState =
+  AboutState { edits :: Integer
+             , body  :: String
+             }
+  deriving (Show)
 
 
-reduce :: String -> State Ag ()
-reduce a = state $ \x -> ((), x ++ a)
+initialAbout :: AboutState
+initialAbout =
+  AboutState 0 "There's nothing here..."
 
 
-final :: State Ag Ag
-final = state $ \x -> (x ++ "!!!!!", x)
+data EventType
+  = About
+  | Run
+  deriving (Show)
 
 
-events :: [String]
+data Event =
+  Event { type_ :: EventType
+        , body  :: String
+        }
+  deriving (Show)
+
+
+events :: [Event]
 events =
-  ["Hello ", "world", "!"]
+  [ Event About "Hi, I'm Eamon!"
+  , Event Run "I ran 10.2km today."
+  ]
 
 
-runAgg :: [String] -> Ag -> (String, Ag)
-runAgg events =
-  runState $ traverse reduce events >> final
+reduce :: Event -> State AboutState ()
+reduce (Event {type_=About, body=b}) = state $
+  \about@(AboutState {edits=e}) ->
+    ((), about { edits=e+1, body=b })
+reduce _ = state $
+  \s -> ((), s)
+
+
+final :: State AboutState String
+final = state $
+  \about@(AboutState { body=b, edits=e }) ->
+    (b ++ "\nEdits: " ++ show e, about)
+
+
+runAgg :: [Event] -> AboutState -> (String, AboutState)
+runAgg xs =
+  runState $ traverse reduce xs >> final
