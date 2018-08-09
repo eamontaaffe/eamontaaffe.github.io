@@ -5,7 +5,7 @@ module About where
 
 
 import Aggregate
-import Hakyll (Context, field)
+import Hakyll (Context, constField)
 import Data.Monoid
 
 
@@ -39,6 +39,6 @@ reduceFn s _ = s
 
 finalFn :: State -> (Context String)
 finalFn State{ edits = e, aboutBody = b }
-  =  field "about" (\_-> return b)
-  <> field "edits" (\_-> return $ show e)
-  <> field "title" (\_-> return "About")
+  =  constField "about" b
+  <> constField "edits" (show e)
+  <> constField "title" "About"
