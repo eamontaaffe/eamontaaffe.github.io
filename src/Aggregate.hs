@@ -1,5 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+
+
 module Aggregate where
 
 
@@ -15,17 +17,19 @@ compiler Aggregate{ reduce=r, final=f, initialState=i } =
 
 --------------------------------------------------------------------------------
 
-data Aggregate(a) =
-  Aggregate { reduce      :: a -> Event -> a
-            , final       :: a -> String
-            , initialState :: a
-            }
-
 data Event =
   Event { type_ :: String
         , body  :: String
         }
   deriving (Show)
+
+
+data Aggregate(a) =
+  Aggregate { reduce       :: a -> Event -> a
+            , final        :: a -> String
+            , initialState :: a
+            }
+
 
 build :: (a -> Event -> a) -> (a -> String) -> StateT a Compiler (Item String)
 build rn fn = do
@@ -35,8 +39,10 @@ build rn fn = do
   lift . makeItem $ aboutItem
 
 
-handle :: (a -> Event -> a) -> ((Item String), (Identifier, Metadata))
-       -> StateT a Compiler ()
+handle
+  :: (a -> Event -> a)
+  -> ((Item String), (Identifier, Metadata))
+  -> StateT a Compiler ()
 handle fn (i,(_, m)) =
   state $ \s -> ((), fn s event)
   where
@@ -45,13 +51,12 @@ handle fn (i,(_, m)) =
             , body  = itemBody i
             }
 
+
 unpackEventType :: Metadata -> String
 unpackEventType m =
   fromMaybe "undefined" (lookupString "type" m)
 
+
 finish :: (a -> String) -> StateT a Compiler String
 finish fn =
   state $ \s -> (fn s, s)
-
-
---------------------------------------------------------------------------------

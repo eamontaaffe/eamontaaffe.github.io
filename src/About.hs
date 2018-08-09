@@ -1,7 +1,11 @@
 {-# LANGUAGE DuplicateRecordFields #-}
+
+
 module About where
 
+
 import Aggregate
+
 
 data State =
   State { edits :: Integer
@@ -17,6 +21,7 @@ aggregate =
             , initialState = initial
             }
 
+
 initial :: State
 initial =
   State (-1) "There's nothing here..."
@@ -28,6 +33,7 @@ reduceFn state@State{ edits = e} Event{ type_ = "About", body = b } =
         , body = b
         }
 reduceFn s _ = s
+
 
 finalFn :: State -> String
 finalFn State{ edits = e, body = b } =
