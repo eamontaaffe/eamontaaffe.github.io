@@ -1,4 +1,4 @@
 ---
 title: Eamon
 ---
-Hello, this is Eamon's new website!
+Hello, this is Eamon's website!
