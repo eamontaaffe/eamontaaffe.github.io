@@ -6,7 +6,8 @@
    CLOCK: [2018-08-09 Thu 14:43]--[2018-08-09 Thu 14:51] =>  0:08
    CLOCK: [2018-08-09 Thu 14:10]--[2018-08-09 Thu 14:39] =>  0:29
 ** TODO Simple about page from events                                :medium:
-   CLOCK: [2018-08-09 Thu 14:51]
+   CLOCK: [2018-08-09 Thu 16:43]
+   CLOCK: [2018-08-09 Thu 14:51]--[2018-08-09 Thu 16:42] =>  1:51
 
 - [ ] Build up a context object by aggregating events
 - [x] Create a template for the about page

@@ -1,15 +1,17 @@
-{-# LANGUAGE DuplicateRecordFields #-}
+-- {-# LANGUAGE DuplicateRecordFields #-}
 
 
 module About where
 
 
 import Aggregate
+import Hakyll (Context, field)
+import Data.Monoid
 
 
 data State =
   State { edits :: Integer
-        , body  :: String
+        , aboutBody  :: String
         }
   deriving (Show)
 
@@ -30,11 +32,13 @@ initial =
 reduceFn :: State -> Event -> State
 reduceFn state@State{ edits = e} Event{ type_ = "About", body = b } =
   state { edits = e + 1
-        , body = b
+        , aboutBody = b
         }
 reduceFn s _ = s
 
 
-finalFn :: State -> String
-finalFn State{ edits = e, body = b } =
-  b ++ "\n\nTotal edits: " ++ show e
+finalFn :: State -> (Context String)
+finalFn State{ edits = e, aboutBody = b }
+  =  field "about" (\_-> return b)
+  <> field "edits" (\_-> return $ show e)
+  <> field "title" (\_-> return "About")

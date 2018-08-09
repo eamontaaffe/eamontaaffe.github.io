@@ -10,12 +10,24 @@ import Control.Monad.State
 import Data.Maybe
 
 
-compiler :: Aggregate(a) -> Compiler (Item String)
-compiler Aggregate{ reduce=r, final=f, initialState=i } =
-  evalStateT (build r f) i
-
-
+-- Exposed
 --------------------------------------------------------------------------------
+
+
+compileEvents :: Pattern -> Compiler (Item [Event])
+compileEvents p = do
+  items <- (loadAll p) :: Compiler [Item String]
+  metadatas <- getAllMetadata $ p :: Compiler [(Identifier, Metadata)]
+  makeItem $ map unpackEvent (zip items metadatas)
+
+
+buildContext
+  :: Aggregate(a)
+  -> Item [Event]
+  -> Context String
+buildContext Aggregate{ reduce=r, final=f, initialState=i } events =
+  evalState (traverse (handle r) (itemBody events) >> (finish f) ) i
+
 
 data Event =
   Event { type_ :: String
@@ -26,37 +38,32 @@ data Event =
 
 data Aggregate(a) =
   Aggregate { reduce       :: a -> Event -> a
-            , final        :: a -> String
+            , final        :: a -> Context String
             , initialState :: a
             }
 
 
-build :: (a -> Event -> a) -> (a -> String) -> StateT a Compiler (Item String)
-build rn fn = do
-  items     <- lift . loadAll $ "events/*"
-  metadatas <- lift . getAllMetadata $ "events/*"
-  aboutItem <- traverse (handle rn) (zip items metadatas) >> (finish fn)
-  lift . makeItem $ aboutItem
-
+-- Internal
+--------------------------------------------------------------------------------
 
 handle
   :: (a -> Event -> a)
-  -> ((Item String), (Identifier, Metadata))
-  -> StateT a Compiler ()
-handle fn (i,(_, m)) =
+  -> Event
+  -> State a ()
+handle fn event =
   state $ \s -> ((), fn s event)
-  where
-    event =
-      Event { type_ = unpackEventType m
-            , body  = itemBody i
-            }
+
+
+finish :: (a -> (Context String)) -> State a (Context String)
+finish fn =
+  state $ \s -> (fn s, s)
+
+
+unpackEvent :: (Item String, (Identifier, Metadata)) -> Event
+unpackEvent (item, (id, meta)) =
+  Event { type_ = unpackEventType meta, body = itemBody item }
 
 
 unpackEventType :: Metadata -> String
 unpackEventType m =
   fromMaybe "undefined" (lookupString "type" m)
-
-
-finish :: (a -> String) -> StateT a Compiler String
-finish fn =
-  state $ \s -> (fn s, s)
