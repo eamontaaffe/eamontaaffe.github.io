@@ -2,8 +2,10 @@
 #+AUTHOR: Eamon Taaffe <eamontaaffe@gmail.com>
 
 * To do
-** TODO Render a simple index page from html template                  :easy:
-   CLOCK: [2018-08-09 Thu 14:10]
+** DONE Render a simple index page using pandoc compiler               :easy:
+   CLOCK: [2018-08-09 Thu 14:43]--[2018-08-09 Thu 14:51] =>  0:08
+   CLOCK: [2018-08-09 Thu 14:10]--[2018-08-09 Thu 14:39] =>  0:29
 ** TODO Simple about page from events                                :medium:
+   CLOCK: [2018-08-09 Thu 14:51]
 ** TODO Book's page from events                                      :medium:
 ** TODO Render multiple blog post pages from events                    :hard:

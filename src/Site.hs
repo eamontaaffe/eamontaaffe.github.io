@@ -13,19 +13,20 @@ import qualified About as About
 
 run :: IO ()
 run = hakyll $ do
-    create ["index.html"] $ do
-      route idRoute
-      compile hello
+  match "templates/*" $
+    compile templateBodyCompiler
 
-    -- match "index.md" $ do
-    --   route idRoute
+  create ["pages/index.md"] $ do
+    route $ constRoute "index.html"
+    compile $ pandocCompiler >>=
+        loadAndApplyTemplate "templates/default.html" defaultContext
 
-    match "events/*" $
-      compile getResourceBody
+  match "events/*" $
+    compile getResourceBody
 
-    create ["about.html"] $ do
-      route idRoute
-      compile $ Aggregate.compiler About.aggregate
+  create ["about.html"] $ do
+    route idRoute
+    compile $ Aggregate.compiler About.aggregate
 
 
 --------------------------------------------------------------------------------
