@@ -5,65 +5,58 @@
 module Aggregate where
 
 
-import Hakyll
-import Control.Monad.State
-import Data.Maybe
+import           Hakyll
+import           Hakyll.Core.Rules (rulesExtraDependencies)
+import           Control.Monad.Trans.State
+import           Data.Maybe
+import qualified Data.Set as Set
+
+
+-- Types
+--------------------------------------------------------------------------------
+
+data Events =
+  Events { events     :: [Event]
+         , dependency :: Dependency
+         }
+
+data Event =
+  Event { type_      :: Maybe String 
+        , identifier :: Identifier -- The identifier can be used to get the body
+        }
+  deriving (Show)
+
+
+data Aggregate(a) =
+  Aggregate { reduce       :: Event -> StateT a Compiler ()
+            , initialState :: a
+            }
 
 
 -- Exposed
 --------------------------------------------------------------------------------
 
 
-compileEvents :: Pattern -> Compiler (Item [Event])
-compileEvents p = do
-  items <- (loadAll p) :: Compiler [Item String]
-  metadatas <- getAllMetadata $ p :: Compiler [(Identifier, Metadata)]
-  makeItem $ map unpackEvent (zip items metadatas)
+buildEvents :: MonadMetadata m => Pattern -> m Events
+buildEvents p = do
+  ids <- getMatches p
+  events' <- mapM getEvent ids
+  return Events
+    { events = events'
+    , dependency = PatternDependency p (Set.fromList ids)
+    }
 
 
-buildContext
-  :: Aggregate(a)
-  -> Item [Event]
-  -> Context String
-buildContext Aggregate{ reduce=r, final=f, initialState=i } events =
-  evalState (traverse (handle r) (itemBody events) >> (finish f) ) i
+getEvent :: MonadMetadata m => Identifier -> m Event
+getEvent id = do
+  metadata <- getMetadata id
+  let type_ = lookupString "type" metadata
+  return Event
+    { identifier = id
+    , type_ = type_
+    }
 
 
-data Event =
-  Event { type_ :: String
-        , body  :: String
-        }
-  deriving (Show)
-
-
-data Aggregate(a) =
-  Aggregate { reduce       :: a -> Event -> a
-            , final        :: a -> Context String
-            , initialState :: a
-            }
-
-
--- Internal
---------------------------------------------------------------------------------
-
-handle
-  :: (a -> Event -> a)
-  -> Event
-  -> State a ()
-handle fn event =
-  state $ \s -> ((), fn s event)
-
-
-finish :: (a -> (Context String)) -> State a (Context String)
-finish fn =
-  state $ \s -> (fn s, s)
-
-
-unpackEvent :: (Item String, (Identifier, Metadata)) -> Event
-unpackEvent (item, (id, meta)) =
-  Event { type_ = unpackEventType meta, body = itemBody item }
-
-
-unpackEventType :: Metadata -> String
-unpackEventType m =
-  fromMaybe "undefined" (lookupString "type" m)
+compileAggregate :: Aggregate a -> Events -> Compiler a
+compileAggregate Aggregate{reduce=r, initialState=i} Events{events=e} =
+  execStateT (traverse r e) i

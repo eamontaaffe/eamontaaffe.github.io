@@ -1,17 +1,19 @@
--- {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 
 
 module About where
 
 
 import Aggregate
-import Hakyll (Context, constField)
+import Hakyll
 import Data.Monoid
+import Control.Monad.State (lift)
+import Control.Monad.Trans.State (StateT, state)
 
 
 data State =
   State { edits :: Integer
-        , aboutBody  :: String
+        , aboutBodyId  :: Maybe Identifier
         }
   deriving (Show)
 
@@ -19,26 +21,17 @@ data State =
 aggregate :: Aggregate(State)
 aggregate =
   Aggregate { reduce = reduceFn
-            , final = finalFn
             , initialState = initial
             }
 
 
 initial :: State
 initial =
-  State (-1) "There's nothing here..."
+  State (-1) (Nothing)
 
 
-reduceFn :: State -> Event -> State
-reduceFn state@State{ edits = e} Event{ type_ = "About", body = b } =
-  state { edits = e + 1
-        , aboutBody = b
-        }
-reduceFn s _ = s
-
-
-finalFn :: State -> (Context String)
-finalFn State{ edits = e, aboutBody = b }
-  =  constField "about" b
-  <> constField "edits" (show e)
-  <> constField "title" "About"
+reduceFn :: Event -> StateT State Compiler ()
+reduceFn Event{type_ = Just "About", identifier = id} =
+  state $ \s@State{edits = e} -> ((), s{ edits = e + 1, aboutBodyId = Just id})
+reduceFn _ =
+  state $ \s -> ((), s)

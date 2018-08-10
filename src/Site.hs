@@ -5,9 +5,10 @@ module Site (run) where
 
 
 import           Hakyll
-import           Aggregate (Event, compileEvents, buildContext)
-import qualified About as About
-import           Data.Monoid
+import           Hakyll.Web.Pandoc
+import           Aggregate (buildEvents, compileAggregate)
+import qualified About as A
+import           Data.Maybe (fromJust)
 
 
 -- Exposed
@@ -18,27 +19,35 @@ run = hakyll $ do
   match "templates/*" $
     compile templateBodyCompiler
 
-  match "events/*" $
-    compile getResourceBody
+  match "events/*" $ do
+    compile $ pandocCompiler
+      >>= saveSnapshot "events"
+
+  events <-
+    buildEvents "events/*"
 
   create ["pages/index.md"] $ do
     route $ constRoute "index.html"
-    compile $ pandocCompiler >>=
-        loadAndApplyTemplate "templates/default.html" defaultContext
+    compile $ pandocCompiler
+      >>= loadAndApplyTemplate "templates/default.html" defaultContext
 
-  create ["pages/about.html"] $ do
-    route $ constRoute "about.html"
+  create ["about.html"] $ do
+    route idRoute
     compile $ do
-      events <- compileEvents "events/*"
-      makeItem ""
-        >>= loadAndApplyTemplate "templates/about.html" (aboutCtx events)
-        >>= loadAndApplyTemplate "templates/default.html" (aboutCtx events)
 
+      about@(A.State{A.aboutBodyId=b, A.edits=e}) <-
+        compileAggregate A.aggregate events
 
--- Internal
---------------------------------------------------------------------------------
+      body <- loadSnapshotBody (fromJust b) "events" :: Compiler (String)
 
-aboutCtx :: Item [Event] -> Context String
-aboutCtx events =
-  buildContext About.aggregate events <>
-  defaultContext
+      let aboutCtx =
+            constField "edits" (show e) `mappend`
+            bodyField "about"
+
+      let defaultCtx =
+            constField "title" "About" `mappend`
+            bodyField "body"
+
+      makeItem body
+        >>= loadAndApplyTemplate "templates/about.html" aboutCtx
+        >>= loadAndApplyTemplate "templates/default.html" defaultCtx
