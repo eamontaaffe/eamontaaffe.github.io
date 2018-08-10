@@ -6,10 +6,11 @@ module Site (run) where
 
 import           Hakyll
 import           Hakyll.Web.Pandoc
-import           Aggregate (buildEvents, compileAggregate)
-import qualified About as A
 import           Data.Maybe (fromJust)
 
+import           Aggregate (buildEvents, compileAggregate)
+import qualified About as A
+import qualified Books as B
 
 -- Exposed
 --------------------------------------------------------------------------------
@@ -19,7 +20,7 @@ run = hakyll $ do
   match "templates/*" $
     compile templateBodyCompiler
 
-  match "events/*" $ do
+  match "events/*.md" $ do
     compile $ pandocCompiler
       >>= saveSnapshot "events"
 
@@ -34,7 +35,6 @@ run = hakyll $ do
   create ["about.html"] $ do
     route idRoute
     compile $ do
-
       about@(A.State{A.aboutBodyId=b, A.edits=e}) <-
         compileAggregate A.aggregate events
 
@@ -51,3 +51,8 @@ run = hakyll $ do
       makeItem body
         >>= loadAndApplyTemplate "templates/about.html" aboutCtx
         >>= loadAndApplyTemplate "templates/default.html" defaultCtx
+
+  create ["books.html"] $ do
+    compile $ do
+      books <- compileAggregate B.aggregate events
+      makeItem "books" :: Compiler (Item String)
