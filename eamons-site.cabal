@@ -15,6 +15,7 @@ library
   exposed-modules:  Site
                     Aggregate
                     About
+                    Books
 
 executable site-exe
   hs-source-dirs:   app

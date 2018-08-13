@@ -53,6 +53,18 @@ run = hakyll $ do
         >>= loadAndApplyTemplate "templates/default.html" defaultCtx
 
   create ["books.html"] $ do
+    route idRoute
     compile $ do
       books <- compileAggregate B.aggregate events
-      makeItem "books" :: Compiler (Item String)
+
+      let booksCtx =
+            constField "total" (show $ length books) `mappend`
+            listFieldWith "books" defaultContext (return books)
+
+      let defaultCtx =
+            constField "title" "Books" `mappend`
+            bodyField "body"
+
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/books.html" booksCtx
+        >>= loadAndApplyTemplate "templates/default.html" defaultCtx
