@@ -7,15 +7,9 @@ library
   hs-source-dirs:   src
   build-depends:    base == 4.*
                   , hakyll
-                  , mtl
-                  , containers
-                  , transformers
   ghc-options:      -threaded
   default-language: Haskell2010
   exposed-modules:  Site
-                    Aggregate
-                    About
-                    Books
 
 executable site-exe
   hs-source-dirs:   app
