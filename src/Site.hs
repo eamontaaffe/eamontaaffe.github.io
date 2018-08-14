@@ -43,7 +43,7 @@ run = hakyll $ do
 
   create ["books.html"] $ do
     route idRoute
-    compile $ do        
+    compile $ do
       books <-
         loadAll "events/*.book.md" :: (Compiler [Item String])
 
@@ -80,4 +80,3 @@ booksCtx books
   <> listField "books" bookCtx (return books)
   <> constField "total" (show . length $ books)
   <> defaultContext
-  
