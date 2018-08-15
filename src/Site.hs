@@ -5,7 +5,7 @@ module Site (run) where
 
 
 import Hakyll
-import Hakyll.Web.Pandoc
+import Hakyll.Web.Sass (sassCompiler)
 import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
 
@@ -16,6 +16,11 @@ run :: IO ()
 run = hakyll $ do
   match "templates/*" $
     compile templateBodyCompiler
+
+  match "css/*.scss" $ do
+    route $ setExtension "css"
+    let compressCssItem = fmap compressCss
+    compile (compressCssItem <$> sassCompiler)
 
   create ["pages/index.md"] $ do
     route $ constRoute "index.html"

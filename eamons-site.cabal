@@ -7,6 +7,7 @@ library
   hs-source-dirs:   src
   build-depends:    base == 4.*
                   , hakyll
+                  , hakyll-sass
   ghc-options:      -threaded
   default-language: Haskell2010
   exposed-modules:  Site
