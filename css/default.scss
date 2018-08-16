@@ -1,32 +1,45 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300|Space+Mono');
 
+$heading-stack: 'Space Mono', monospace;
+$body-stack: 'Poppins', sans-serif;
+
+$primary-color    : black;
+$background-color : white;
+$accent-color     : blue;
+
 @mixin heading-hyperlink {
     a {
-        color: black;
+        color: $primary-color;
         text-decoration: none;
     }
 
     a:hover {
-        background-color: blue;
+        background-color: $accent-color;
         color: white;
     }
 
     a:active {
-        color: blue;
+        color: $accent-color;
     }
 }
 
+a {
+    color: $accent-color;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: $body-stack;
     padding: 0;
     margin: 0;
     padding-left: 56px;
     padding-right: 56px;
     padding-top: 56px;
+    background-color: $background-color;
+    color: $primary-color;
 }
 
 header {
-    font-family: 'Space Mono', monospace;
+    font-family: $heading-stack;
     height: 56px;
     line-height: 56px;
     text-align: center;
@@ -42,7 +55,7 @@ header {
         margin-left: 56px;
         margin-right: 56px;
         border-bottom: solid 1px;
-        background-color: white;
+        background-color: $background-color;
     }
 
     .left {
@@ -57,7 +70,7 @@ header {
 .content {
     max-width: 600px;
     margin: auto;
-    font-family: 'Poppins', sans-serif;
+    font-family: $body-stack;
     font-weight: 300;
     font-size: 100%;
     padding-top: 64px;
@@ -69,10 +82,11 @@ header {
 
     h1 {
         font-size: 64px;
+        line-height: 115%;
     }
 
     .subtitle {
-        font-family: 'Space Mono', monospace;
+        font-family: $heading-stack;
         font-size: 100%;
         text-align: center;
     }
@@ -86,7 +100,7 @@ header {
 nav {
     position: fixed;
     top: 126px;
-    font-family: 'Space Mono', monospace;
+    font-family: $heading-stack;
 
     @include heading-hyperlink;
 }
