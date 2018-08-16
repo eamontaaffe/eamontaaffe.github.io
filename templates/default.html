@@ -9,7 +9,7 @@
 
     <header>
       <div class="container">
-        <span class="left">00:00:00 AEST</span>
+        <span id="clock" class="left">00:00:00 AEST</span>
         <span class="center"><a href="/">Eamon Taaffe</a></span>
         <span class="right"><a href="/information.html">Information</a></span>
       </div>
@@ -18,6 +18,16 @@
     <main>
       <div>$body$</div>
     </main>
+
+    <script src="elm/main.js"></script>
+
+    <script>
+      var node = document.getElementById('clock');
+      console.log(node);
+      console.log(Elm);
+      var app = Elm.Clock.embed(node);
+      console.log(app);
+    </script>
 
   </body>
 </html>
