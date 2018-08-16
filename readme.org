@@ -1,7 +1,14 @@
 #+TITLE: Eamon's site
 #+AUTHOR: Eamon Taaffe <eamontaaffe@gmail.com>
+#+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
+** TODO Highlight current page in navigation
+** TODO Center header title properly
+** TODO Display previous versions when you click on "Edited x times"
+** TODO Write a better information page
+** TODO Get current timezone from events
+** TODO Front page feed
 ** DONE Render a simple index page using pandoc compiler               :easy:
 ** DONE Simple about page from events                                  :hard:
 
@@ -9,5 +16,7 @@
 - [x] Create a template for the about page
 - [x] Render the about page using the context and template
 
-** TODO Book's page from events                                      :medium:
-** TODO Render multiple blog post pages from events                    :hard:
+** DONE Book's page from events                                      :medium:
+** CANCELED Render multiple blog post pages from events                :hard:
+   - State "CANCELED"   from "TODO"       [2018-08-16 Thu 22:10] \\
+     Maybe later
