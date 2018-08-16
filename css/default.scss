@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300|Space+Mono');
 
+@mixin heading-hyperlink {
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+    a:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    a:active {
+        color: blue;
+    }
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     padding: 0;
@@ -20,6 +36,8 @@ header {
     left: 0;
     width: 100%;
 
+    @include heading-hyperlink;
+
     .container {
         margin-left: 56px;
         margin-right: 56px;
@@ -33,20 +51,6 @@ header {
 
     .right {
         float: right;
-    }
-
-    a {
-        color: black;
-        text-decoration: none;
-    }
-
-    a:hover {
-        background-color: blue;
-        color: white;
-    }
-
-    a:active {
-        color: blue;
     }
 }
 
@@ -77,4 +81,12 @@ header {
         padding-top: 64px;
         padding-bottom: 80px;
     }
+}
+
+nav {
+    position: fixed;
+    top: 126px;
+    font-family: 'Space Mono', monospace;
+
+    @include heading-hyperlink;
 }
