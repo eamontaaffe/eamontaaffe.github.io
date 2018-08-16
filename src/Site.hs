@@ -27,21 +27,21 @@ run = hakyll $ do
     compile $ pandocCompiler
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
 
-  match "events/*.about.md" $ do
+  match "events/*.info.md" $ do
     compile $ pandocCompiler
-      >>= saveSnapshot "about"
+      >>= saveSnapshot "info"
 
-  create ["about.html"] $ do
+  create ["information.html"] $ do
     route idRoute
     compile $ do
       abouts <-
-        loadAllSnapshots "events/*.about.md" "about" :: Compiler [Item String]
+        loadAllSnapshots "events/*.info.md" "info"
 
       let ctx =
             aboutCtx abouts
 
       makeItem ""
-        >>= loadAndApplyTemplate "templates/about.html" ctx
+        >>= loadAndApplyTemplate "templates/content.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
   match "events/*.book.md" $ compile getResourceBody
@@ -50,7 +50,7 @@ run = hakyll $ do
     route idRoute
     compile $ do
       books <-
-        loadAll "events/*.book.md" :: (Compiler [Item String])
+        loadAll "events/*.book.md"
 
       let ctx =
             booksCtx books
@@ -65,8 +65,9 @@ run = hakyll $ do
 
 aboutCtx :: [Item String] -> Context String
 aboutCtx abouts
-  =  constField "title" "About"
-  <> constField "about" (itemBody . last $  abouts)
+  =  constField "content" (itemBody . last $  abouts)
+  <> constField "title" "About Eamon Taaffe"
+  <> constField "date" "2018.08.16"
   <> constField "edits" (show . ((-) 1) . length $ abouts)
   <> defaultContext
 
