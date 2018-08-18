@@ -17,10 +17,6 @@ run = hakyll $ do
   match "templates/*" $
     compile templateBodyCompiler
 
-  match "elm/main.js" $ do
-    route idRoute
-    compile copyFileCompiler
-
   match "css/*.scss" $ do
     route $ setExtension "css"
     let compressCssItem = fmap compressCss
