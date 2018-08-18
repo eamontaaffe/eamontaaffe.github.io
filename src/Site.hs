@@ -6,8 +6,10 @@ module Site (run) where
 
 import Hakyll
 import Hakyll.Web.Sass (sassCompiler)
-import Data.Monoid ((<>))
-import Data.Maybe (fromMaybe)
+import Data.Monoid     ((<>))
+import Data.Maybe      (fromMaybe)
+import Control.Monad   (foldM)
+import Text.Read       (readMaybe)
 
 -- Exposed
 --------------------------------------------------------------------------------
@@ -45,22 +47,27 @@ run = hakyll $ do
             infoCtx infos
 
       makeItem ""
+        >>= loadAndApplyTemplate "templates/info.html" ctx
         >>= loadAndApplyTemplate "templates/content.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
   match "events/*.book.md" $ compile getResourceBody
 
-  create ["books.html"] $ do
+  create ["read.html"] $ do
     route idRoute
     compile $ do
-      books <-
-        loadAll "events/*.book.md"
+      books <- recentFirst
+        =<< loadAll "events/*.book.md"
+
+      pages <-
+        foldM foldPages 0 books
 
       let ctx =
-            booksCtx books
+            booksCtx books pages
 
       makeItem ""
-        >>= loadAndApplyTemplate "templates/books.html" ctx
+        >>= loadAndApplyTemplate "templates/read.html" ctx
+        >>= loadAndApplyTemplate "templates/content.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
 
@@ -69,7 +76,7 @@ run = hakyll $ do
 
 infoCtx :: [Item String] -> Context String
 infoCtx infos@(x:xs)
-  =  constField "content" (itemBody x)
+  =  constField "infoBody" (itemBody x)
   <> boolField "info" (\_-> True)
   <> field "title" getTitle
   <> constField "date" "2018.08.16"
@@ -87,11 +94,19 @@ bookCtx
   <> defaultContext
 
 
-booksCtx :: [Item String] -> Context String
-booksCtx books
+booksCtx :: [Item String] -> Int -> Context String
+booksCtx books@(x:xs) pages
   =  constField "title" "Books"
-  -- TODO: Calculate total pages from metadata
-  <> constField "total-pages" "101"
+  <> boolField "read" (\_-> True)
+  <> constField "latest-book-title" "Animal Farm"
+  <> constField "latest-book-author" "George Orwell"
+  <> constField "total-books" (show $ length books)
+  <> constField "total-pages" (show pages)
   <> listField "books" bookCtx (return books)
-  <> constField "total" (show . length $ books)
   <> defaultContext
+
+
+foldPages :: Int -> (Item a) -> Compiler Int
+foldPages pages book = do
+  field <- getMetadataField (itemIdentifier book) "pages"
+  return $ pages + (fromMaybe 0 $ field >>= readMaybe)

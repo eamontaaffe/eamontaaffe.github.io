@@ -3,8 +3,10 @@
 #+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
-** TODO Highlight current page in navigation
-** TODO Center header title properly
+** DONE Highlight current page in navigation
+   - State "DONE"       from "TODO"       [2018-08-18 Sat 16:15]
+** DONE Center header title properly
+   - State "DONE"       from "TODO"       [2018-08-18 Sat 16:15]
 ** TODO Display previous versions when you click on "Edited x times"
 ** TODO Write a better information page
 ** TODO Get current timezone from events
