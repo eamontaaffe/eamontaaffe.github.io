@@ -38,8 +38,8 @@ run = hakyll $ do
   create ["information.html"] $ do
     route idRoute
     compile $ do
-      abouts <-
-        loadAllSnapshots "events/*.info.md" "info"
+      abouts <- recentFirst
+        =<< loadAllSnapshots "events/*.info.md" "info"
 
       let ctx =
             aboutCtx abouts
@@ -68,12 +68,16 @@ run = hakyll $ do
 --------------------------------------------------------------------------------
 
 aboutCtx :: [Item String] -> Context String
-aboutCtx abouts
-  =  constField "content" (itemBody . last $  abouts)
-  <> constField "title" "About Eamon Taaffe"
+aboutCtx abouts@(x:xs)
+  =  constField "content" (itemBody x)
+  <> field "title" getTitle
   <> constField "date" "2018.08.16"
-  <> constField "edits" (show . ((-) 1) . length $ abouts)
+  <> constField "edits" (show . (subtract 1) . length $ abouts)
   <> defaultContext
+  where
+    getTitle _ = do
+      field <- getMetadataField (itemIdentifier x) "title"
+      return $ fromMaybe "No title" field
 
 
 bookCtx :: Context String
