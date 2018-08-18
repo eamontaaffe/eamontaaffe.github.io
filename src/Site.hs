@@ -117,6 +117,7 @@ data BooksState =
             , latestAuthor :: Maybe String
             }
 
+
 initialBooksState =
   BooksState { totalPages = 0
             , totalBooks = 0
@@ -124,22 +125,23 @@ initialBooksState =
             , latestAuthor = Nothing
             }
 
+
 foldBooks :: BooksState -> (Item a) -> Compiler BooksState
-foldBooks state@BooksState{ totalPages   = p
-                          , totalBooks   = b
-                          , latestAuthor = Just _
+foldBooks state@BooksState{ latestAuthor = Just _
                           , latestTitle  = Just _
-                          } book = do
-  field  <- getMetadataField (itemIdentifier book) "pages"
-  return $ state { totalPages   = p + (fromMaybe 0 $ field >>= readMaybe)
-                 , totalBooks   = b + 1
-                 }
+                          } book = updateBooksCounts state book
 foldBooks state@BooksState{ totalPages=p, totalBooks=b } book = do
-  field  <- getMetadataField (itemIdentifier book) "pages"
+  state' <- updateBooksCounts state book
   title  <- getMetadataField (itemIdentifier book) "title"
   author <- getMetadataField (itemIdentifier book) "author"
+  return $ state' { latestTitle  = title
+                  , latestAuthor = author
+                  }
+
+
+updateBooksCounts :: BooksState -> Item a -> Compiler BooksState
+updateBooksCounts state@BooksState{ totalPages = p, totalBooks = b } book = do
+  field  <- getMetadataField (itemIdentifier book) "pages"
   return $ state { totalPages   = p + (fromMaybe 0 $ field >>= readMaybe)
                  , totalBooks   = b + 1
-                 , latestTitle  = title
-                 , latestAuthor = author
                  }
