@@ -60,14 +60,19 @@ header {
 
     .left {
         float: left;
+        width: 150px;
+        text-align: left;
     }
 
     .center {
-        float: center;
+        width: 150px;
+        text-align: center
     }
 
     .right {
         float: right;
+        width: 150px;
+        text-align: right;
     }
 
     span.active a{
