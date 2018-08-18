@@ -38,11 +38,11 @@ run = hakyll $ do
   create ["information.html"] $ do
     route idRoute
     compile $ do
-      abouts <- recentFirst
+      infos <- recentFirst
         =<< loadAllSnapshots "events/*.info.md" "info"
 
       let ctx =
-            aboutCtx abouts
+            infoCtx infos
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/content.html" ctx
@@ -67,12 +67,13 @@ run = hakyll $ do
 -- Internal
 --------------------------------------------------------------------------------
 
-aboutCtx :: [Item String] -> Context String
-aboutCtx abouts@(x:xs)
+infoCtx :: [Item String] -> Context String
+infoCtx infos@(x:xs)
   =  constField "content" (itemBody x)
+  <> boolField "info" (\_-> True)
   <> field "title" getTitle
   <> constField "date" "2018.08.16"
-  <> constField "edits" (show . (subtract 1) . length $ abouts)
+  <> constField "edits" (show . (subtract 1) . length $ infos)
   <> defaultContext
   where
     getTitle _ = do

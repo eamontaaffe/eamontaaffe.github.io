@@ -15,7 +15,7 @@ $accent-color     : blue;
 
     a:hover {
         background-color: $accent-color;
-        color: white;
+        color: $background-color;
     }
 
     a:active {
@@ -63,10 +63,23 @@ header {
     }
 
     .center {
+        float: center;
     }
 
     .right {
         float: right;
+    }
+
+    span.active a{
+        color: blue;
+    }
+
+    span.active a:hover {
+        color: $background-color
+    }
+
+    span.active a:active {
+        color: $accent-color
     }
 }
 
@@ -106,4 +119,8 @@ nav {
     font-family: $heading-stack;
 
     @include heading-hyperlink;
+
+    .active {
+        color: blue;
+    }
 }

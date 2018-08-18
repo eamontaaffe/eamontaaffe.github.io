@@ -1,9 +1,9 @@
 <nav>
-  <a href="/">Home</a><br>
-  <a href="/read.html">Read</a><br>
-  <a href="/write.html">Write</a><br>
-  <a href="/snap.html">Snap</a><br>
-  <a href="/travel.html">Travel</a>
+  <a href="/" $if(home)$ class="active" $endif$>Home</a><br>
+  <a href="/read.html" $if(read)$ class="active" $endif$>Read</a><br>
+  <a href="/write.html" $if(write)$ class="active" $endif$>Write</a><br>
+  <a href="/snap.html" $if(snap)$ class="active" $endif$>Snap</a><br>
+  <a href="/travel.html" $if(travel)$ class="active" $endif$>Travel</a>
 </nav>
 
 <div class="content">
