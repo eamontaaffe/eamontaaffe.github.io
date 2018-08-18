@@ -59,11 +59,11 @@ run = hakyll $ do
       books <- recentFirst
         =<< loadAll "events/*.book.md"
 
-      pages <-
-        foldM foldPages 0 books
+      booksState <-
+        foldM foldBooks initialBooksState books
 
       let ctx =
-            booksCtx books pages
+            booksCtx books booksState
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/read.html" ctx
@@ -94,19 +94,52 @@ bookCtx
   <> defaultContext
 
 
-booksCtx :: [Item String] -> Int -> Context String
-booksCtx books@(x:xs) pages
+booksCtx :: [Item String] -> BooksState -> Context String
+booksCtx books@(x:xs) BooksState{ totalPages   = p
+                                , totalBooks   = b
+                                , latestAuthor = a
+                                , latestTitle  = t
+                                }
   =  constField "title" "Books"
   <> boolField "read" (\_-> True)
-  <> constField "latest-book-title" "Animal Farm"
-  <> constField "latest-book-author" "George Orwell"
-  <> constField "total-books" (show $ length books)
-  <> constField "total-pages" (show pages)
+  <> constField "latest-book-title" (fromMaybe "No Title" t)
+  <> constField "latest-book-author" (fromMaybe "No Author" a)
+  <> constField "total-books" (show b)
+  <> constField "total-pages" (show p)
   <> listField "books" bookCtx (return books)
   <> defaultContext
 
 
-foldPages :: Int -> (Item a) -> Compiler Int
-foldPages pages book = do
-  field <- getMetadataField (itemIdentifier book) "pages"
-  return $ pages + (fromMaybe 0 $ field >>= readMaybe)
+data BooksState =
+  BooksState { totalPages   :: Int
+            , totalBooks   :: Int
+            , latestTitle  :: Maybe String
+            , latestAuthor :: Maybe String
+            }
+
+initialBooksState =
+  BooksState { totalPages = 0
+            , totalBooks = 0
+            , latestTitle = Nothing
+            , latestAuthor = Nothing
+            }
+
+foldBooks :: BooksState -> (Item a) -> Compiler BooksState
+foldBooks state@BooksState{ totalPages   = p
+                          , totalBooks   = b
+                          , latestAuthor = Just _
+                          , latestTitle  = Just _
+                          } book = do
+  field  <- getMetadataField (itemIdentifier book) "pages"
+  return $ state { totalPages   = p + (fromMaybe 0 $ field >>= readMaybe)
+                 , totalBooks   = b + 1
+                 }
+foldBooks state@BooksState{ totalPages=p, totalBooks=b } book = do
+  field  <- getMetadataField (itemIdentifier book) "pages"
+  title  <- getMetadataField (itemIdentifier book) "title"
+  author <- getMetadataField (itemIdentifier book) "author"
+  return $ state { totalPages   = p + (fromMaybe 0 $ field >>= readMaybe)
+                 , totalBooks   = b + 1
+                 , latestTitle  = title
+                 , latestAuthor = author
+                 }
