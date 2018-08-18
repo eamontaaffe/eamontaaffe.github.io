@@ -22,6 +22,10 @@ run = hakyll $ do
     let compressCssItem = fmap compressCss
     compile (compressCssItem <$> sassCompiler)
 
+  match "js/*" $ do
+    route idRoute
+    compile copyFileCompiler
+
   create ["pages/index.md"] $ do
     route $ constRoute "index.html"
     compile $ pandocCompiler
