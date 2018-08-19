@@ -96,6 +96,14 @@ header {
     font-size: 100%;
     padding-top: 64px;
 
+    .no-underline {
+        text-decoration: none;
+    }
+
+    b {
+        font-weight: bold;
+    }
+
     h1, h2, h3, h4, h5, h6, h7 {
         text-align: center;
         font-weight: 300;
@@ -134,4 +142,123 @@ nav {
     text-align: center;
     list-style: none;
     line-height: 200%;
+}
+
+.events {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 32px;
+    padding-bottom: 64px;
+
+    .events-0, .events-1, .events-2, .events-3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+
+    .events-0, .events-1, .events-2 {
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+
+    .events-0 {
+        grid-column-start: 2;
+        grid-column-end: 4;
+    }
+
+    .events-1 {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    .events-2 {
+        grid-column-start: 4;
+        grid-column-end: 5;
+    }
+
+    .events-3 {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 2;
+    }
+
+    .events-0 .event{
+        border-bottom: solid 1px $primary-color;
+        padding-bottom: 32px;
+        padding-top: 32px;
+
+        h2 {
+            font-weight: 300;
+        }
+
+        .category a {
+            font-family: $heading-stack;
+            text-decoration: none;
+            padding-top: 16px;
+        }
+
+        .img {
+            background-color: $primary-color;
+            width: 100%;
+            padding-bottom: 75%;
+        }
+
+        .date {
+            font-family: $heading-stack
+        }
+    }
+
+    .events-1 .event {
+        border-bottom: solid 1px $primary-color;
+        padding-bottom: 32px;
+        padding-top: 32px;
+
+        h2 {
+            font-weight: 300;
+        }
+
+        .category a {
+            font-family: $heading-stack;
+            text-decoration: none;
+            padding-top: 16px;
+        }
+
+        .img {
+            background-color: $primary-color;
+            width: 100%;
+            padding-bottom: 75%;
+        }
+
+        .date {
+            font-family: $heading-stack
+        }
+    }
+
+    .events-2 .event {
+        border-bottom: solid 1px $primary-color;
+        padding-bottom: 32px;
+        padding-top: 32px;
+
+        h2 {
+            font-weight: 300;
+        }
+
+        .category a {
+            font-family: $heading-stack;
+            text-decoration: none;
+        }
+
+        .img {
+            float: right;
+            background-color: $primary-color;
+            width: 40%;
+            padding-bottom: 40%;
+        }
+
+        .date {
+            font-family: $heading-stack
+        }
+    }
 }

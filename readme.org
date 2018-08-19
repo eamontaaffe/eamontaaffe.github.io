@@ -3,14 +3,22 @@
 #+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
+** TODO Display previous versions when you click on "Edited x times"
+** TODO Write better information page copy
+** TODO Get current timezone from events
+** TODO Front page feed
+** TODO Write page
+** TODO Snap page
+** TODO Travel page
+** CANCELED Render multiple blog post pages from events                :hard:
+   - State "CANCELED"   from "TODO"       [2018-08-16 Thu 22:10] \\
+     Maybe later
 ** DONE Highlight current page in navigation
    - State "DONE"       from "TODO"       [2018-08-18 Sat 16:15]
 ** DONE Center header title properly
    - State "DONE"       from "TODO"       [2018-08-18 Sat 16:15]
-** TODO Display previous versions when you click on "Edited x times"
-** TODO Write a better information page
-** TODO Get current timezone from events
-** TODO Front page feed
+** DONE Read page
+   - State "DONE"       from "TODO"       [2018-08-18 Sat 22:46]
 ** DONE Render a simple index page using pandoc compiler               :easy:
 ** DONE Simple about page from events                                  :hard:
 
@@ -19,6 +27,3 @@
 - [x] Render the about page using the context and template
 
 ** DONE Book's page from events                                      :medium:
-** CANCELED Render multiple blog post pages from events                :hard:
-   - State "CANCELED"   from "TODO"       [2018-08-16 Thu 22:10] \\
-     Maybe later

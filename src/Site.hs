@@ -1,15 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 
-module Site (run) where
+module Site where
 
 
 import Hakyll
-import Hakyll.Web.Sass (sassCompiler)
-import Data.Monoid     ((<>))
-import Data.Maybe      (fromMaybe)
-import Control.Monad   (foldM)
-import Text.Read       (readMaybe)
+import Hakyll.Web.Sass    (sassCompiler)
+import Data.Monoid        ((<>))
+import Data.Maybe         (fromMaybe)
+import Control.Monad      (foldM)
+import Text.Read          (readMaybe)
+import Network.URI.Encode (encode)
+import Text.Regex
 
 -- Exposed
 --------------------------------------------------------------------------------
@@ -28,20 +30,42 @@ run = hakyll $ do
     route idRoute
     compile copyFileCompiler
 
-  create ["pages/index.md"] $ do
-    route $ constRoute "index.html"
-    compile $ pandocCompiler
-      >>= loadAndApplyTemplate "templates/default.html" defaultContext
+  match ("events/*.md" .&&. hasNoVersion) $
+    compile $
+      pandocCompiler
+        >>= saveSnapshot "compiled"
 
-  match "events/*.info.md" $ do
-    compile $ pandocCompiler
-      >>= saveSnapshot "info"
+  match "events/*.jpg" $ do
+    route idRoute
+    compile copyFileCompiler
+
+  match "events/*.jpg" $ version "empty" $ do
+    compile $ do
+      makeItem "" :: Compiler (Item String)
+
+  create ["index.html"] $ do
+    route idRoute
+    compile $ do
+      books <- loadAll "events/*.book.md"
+      blogs <- loadAll "events/*.blog.md"
+      infos <- loadAll "events/*.info.md"
+      snaps <- loadAll ("events/*.snap.jpg" .&&. hasVersion "empty")
+
+      events <-
+        recentFirst (books ++ blogs ++ infos ++ snaps)
+
+      let ctx =
+            indexCtx events
+
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/index.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
 
   create ["information.html"] $ do
     route idRoute
     compile $ do
       infos <- recentFirst
-        =<< loadAllSnapshots "events/*.info.md" "info"
+        =<< loadAllSnapshots "events/*.info.md" "compiled"
 
       let ctx =
             infoCtx infos
@@ -50,8 +74,6 @@ run = hakyll $ do
         >>= loadAndApplyTemplate "templates/info.html" ctx
         >>= loadAndApplyTemplate "templates/content.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
-
-  match "events/*.book.md" $ compile getResourceBody
 
   create ["read.html"] $ do
     route idRoute
@@ -74,6 +96,55 @@ run = hakyll $ do
 -- Internal
 --------------------------------------------------------------------------------
 
+
+indexCtx :: [Item String] -> Context String
+indexCtx events
+  =  constField "title" "Eamon Taaffe"
+  <> listField "events-0" eventCtx (return . take 1 $ events)
+  <> listField "events-1" eventCtx (return . take 2 . drop 1 $ events)
+  <> listField "events-2" eventCtx (return . take 4 . drop 3 $ events)
+  <> listField "events-3" eventCtx (return . drop 7 $ events)
+  <> defaultContext
+
+
+eventCtx :: Context String
+eventCtx
+  =  dateField "date" "%Y.%m.%d"
+  <> field "category" getCategoryField
+  <> defaultContext
+
+
+typeRegex :: Regex
+typeRegex =
+  mkRegex "\\.([a-z]+)\\.[a-z]+$"
+
+
+getTypeFromPath :: String -> Maybe String
+getTypeFromPath f =
+  case (matchRegex typeRegex f) of
+    Just ([x]) -> Just x
+    _          -> Nothing
+
+
+getCategoryFromType :: String -> Maybe String
+getCategoryFromType "book" = Just "Read"
+getCategoryFromType "info" = Just "Information"
+getCategoryFromType "snap" = Just "Snap"
+getCategoryFromType "blog" = Just "Blog"
+getCategoryFromType _      = Nothing
+
+
+getCategoryFromPath :: String -> Maybe String
+getCategoryFromPath p =
+  getTypeFromPath p
+  >>= getCategoryFromType
+
+
+getCategoryField :: Item a -> Compiler String
+getCategoryField =
+  pure . fromMaybe "nope" . getCategoryFromPath . toFilePath . itemIdentifier
+
+
 infoCtx :: [Item String] -> Context String
 infoCtx infos@(x:xs)
   =  constField "infoBody" (itemBody x)
@@ -83,7 +154,7 @@ infoCtx infos@(x:xs)
   <> constField "edits" (show . (subtract 1) . length $ infos)
   <> defaultContext
   where
-    getTitle _ = do
+    getTitle _ = do      
       field <- getMetadataField (itemIdentifier x) "title"
       return $ fromMaybe "No title" field
 
@@ -91,6 +162,7 @@ infoCtx infos@(x:xs)
 bookCtx :: Context String
 bookCtx
   =  dateField "date" "%B %e, %Y"
+  <> encodeURIFunctionField
   <> defaultContext
 
 
@@ -145,3 +217,10 @@ updateBooksCounts state@BooksState{ totalPages = p, totalBooks = b } book = do
   return $ state { totalPages   = p + (fromMaybe 0 $ field >>= readMaybe)
                  , totalBooks   = b + 1
                  }
+
+
+encodeURIFunctionField :: Context String
+encodeURIFunctionField =
+  functionField "encodeURI" fn
+  where
+    fn xs _ = return . encode . unwords $ xs
