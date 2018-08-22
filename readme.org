@@ -3,6 +3,7 @@
 #+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
+** TODO Check mobile compatability
 ** TODO Display previous versions when you click on "Edited x times"
 ** TODO Write better information page copy
 ** TODO Get current timezone from events
