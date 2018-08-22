@@ -8,6 +8,7 @@ import Hakyll
 import Hakyll.Web.Sass    (sassCompiler)
 import Data.Monoid        ((<>))
 import Data.Maybe         (fromMaybe)
+import Data.Char          (toLower)
 import Control.Monad      (foldM)
 import Text.Read          (readMaybe)
 import Network.URI.Encode (encode)
@@ -111,6 +112,7 @@ eventCtx :: Context String
 eventCtx
   =  dateField "date" "%Y.%m.%d"
   <> field "category" getCategoryField
+  <> lowercaseFunctionField
   <> defaultContext
 
 
@@ -224,3 +226,10 @@ encodeURIFunctionField =
   functionField "encodeURI" fn
   where
     fn xs _ = return . encode . unwords $ xs
+
+
+lowercaseFunctionField :: Context String
+lowercaseFunctionField =
+  functionField "lowercase" fn
+  where
+    fn xs _ = return . unwords . map (map toLower) $ xs

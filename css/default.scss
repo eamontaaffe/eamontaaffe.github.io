@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300|Space+Mono');
 
-$heading-stack: 'Space Mono', monospace;
-$body-stack: 'Poppins', sans-serif;
-
-$primary-color    : black;
-$background-color : white;
-$accent-color     : blue;
+$heading-stack      : 'Space Mono', monospace;
+$body-stack         : 'Poppins', sans-serif;
+$primary-color      : black;
+$background-color   : white;
+$accent-color       : blue;
+$mobile-break-point : 600px;
 
 @mixin heading-hyperlink {
     a {
@@ -48,6 +48,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 1;
 
     @include heading-hyperlink;
 
@@ -56,12 +57,21 @@ header {
         margin-right: 56px;
         border-bottom: solid 1px;
         background-color: $background-color;
+
+        @media (max-width: $mobile-break-point) {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
     }
 
     .left {
         float: left;
         width: 150px;
         text-align: left;
+
+        @media (max-width: $mobile-break-point) {
+            display: none;
+        }
     }
 
     .center {
@@ -73,6 +83,10 @@ header {
         float: right;
         width: 150px;
         text-align: right;
+
+        @media (max-width: $mobile-break-point) {
+            display: none;
+        }
     }
 
     span.active a{
@@ -131,10 +145,38 @@ nav {
     top: 126px;
     font-family: $heading-stack;
 
+    .hidden-on-desktop {
+        display: none;
+
+        @media (max-width: $mobile-break-point) {
+            display: inline-block;
+        }
+    }
+
     @include heading-hyperlink;
 
     .active {
         color: blue;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    @media (max-width: $mobile-break-point) {
+        top: 0px;
+        position: relative;
+        text-align: center;
+
+        li {
+            display: inline-block;
+
+            &:nth-child(1n + 2):before {
+                content: "\2022  ";
+            }
+        }
     }
 }
 
@@ -142,123 +184,6 @@ nav {
     text-align: center;
     list-style: none;
     line-height: 200%;
-}
-
-.events {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 32px;
-    padding-bottom: 64px;
-
-    .events-0, .events-1, .events-2, .events-3 {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-    }
-
-    .events-0, .events-1, .events-2 {
-        grid-row-start: 1;
-        grid-row-end: 3;
-    }
-
-    .events-0 {
-        grid-column-start: 2;
-        grid-column-end: 4;
-    }
-
-    .events-1 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-    }
-
-    .events-2 {
-        grid-column-start: 4;
-        grid-column-end: 5;
-    }
-
-    .events-3 {
-        grid-column-start: 1;
-        grid-column-end: 5;
-        grid-row-start: 2;
-    }
-
-    .events-0 .event{
-        border-bottom: solid 1px $primary-color;
-        padding-bottom: 32px;
-        padding-top: 32px;
-
-        h2 {
-            font-weight: 300;
-        }
-
-        .category a {
-            font-family: $heading-stack;
-            text-decoration: none;
-            padding-top: 16px;
-        }
-
-        .img {
-            background-color: $primary-color;
-            width: 100%;
-            padding-bottom: 75%;
-        }
-
-        .date {
-            font-family: $heading-stack
-        }
-    }
-
-    .events-1 .event {
-        border-bottom: solid 1px $primary-color;
-        padding-bottom: 32px;
-        padding-top: 32px;
-
-        h2 {
-            font-weight: 300;
-        }
-
-        .category a {
-            font-family: $heading-stack;
-            text-decoration: none;
-            padding-top: 16px;
-        }
-
-        .img {
-            background-color: $primary-color;
-            width: 100%;
-            padding-bottom: 75%;
-        }
-
-        .date {
-            font-family: $heading-stack
-        }
-    }
-
-    .events-2 .event {
-        border-bottom: solid 1px $primary-color;
-        padding-bottom: 32px;
-        padding-top: 32px;
-
-        h2 {
-            font-weight: 300;
-        }
-
-        .category a {
-            font-family: $heading-stack;
-            text-decoration: none;
-        }
-
-        .img {
-            float: right;
-            background-color: $primary-color;
-            width: 40%;
-            padding-bottom: 40%;
-        }
-
-        .date {
-            font-family: $heading-stack
-        }
-    }
+    padding: 0;
+    list-style-type: none;
 }
