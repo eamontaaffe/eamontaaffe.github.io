@@ -52,11 +52,8 @@ run = hakyll $ do
       infos <- loadAll "events/*.info.md"
       snaps <- loadAll ("events/*.snap.jpg" .&&. hasVersion "empty")
 
-      events <-
-        recentFirst (books ++ blogs ++ infos ++ snaps)
-
       let ctx =
-            indexCtx events
+            indexCtx books blogs snaps infos
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/index.html" ctx
@@ -98,13 +95,14 @@ run = hakyll $ do
 --------------------------------------------------------------------------------
 
 
-indexCtx :: [Item String] -> Context String
-indexCtx events
+indexCtx :: [Item String] -> [Item String] -> [Item String] -> [Item String]
+         -> Context String
+indexCtx books blogs snaps infos
   =  constField "title" "Eamon Taaffe"
-  <> listField "events-0" eventCtx (return . take 1 $ events)
-  <> listField "events-1" eventCtx (return . take 2 . drop 1 $ events)
-  <> listField "events-2" eventCtx (return . take 4 . drop 3 $ events)
-  <> listField "events-3" eventCtx (return . drop 7 $ events)
+  <> listField "books" eventCtx (return books)
+  <> listField "blogs" eventCtx (return blogs)
+  <> listField "snaps" snapCtx (return snaps)
+  <> listField "infos" eventCtx (return infos)
   <> defaultContext
 
 
@@ -114,6 +112,13 @@ eventCtx
   <> field "category" getCategoryField
   <> lowercaseFunctionField
   <> defaultContext
+
+snapCtx :: Context String
+snapCtx
+  =  dateField "date" "%Y.%m.%d"
+  <> field "img" (pure . toFilePath . itemIdentifier)
+  <> defaultContext
+  
 
 
 typeRegex :: Regex
