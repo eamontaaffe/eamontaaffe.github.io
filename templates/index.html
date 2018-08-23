@@ -4,20 +4,20 @@
   <!-- different html depending on the type. You can also order the -->
   <!-- type using css in a flexbox. If you want, you could generate  -->
   <!-- the order for each item and render it in a style tag. -->
-  
-  $for(books)$
-  <div class="event event-book" style="order: 2;">
-    <div class="img"></div>
-    <span class="category"><a href="/read.html">Read</a></span>
+
+  $for(snaps)$
+  <div class="event event-snap">
+    <div class="thumbnail"><img src="$img$"></img></div>
+    <span class="category"><a href="/snap.html">Snap</a></span>
     <h2 class="title">$title$</h2>
     <span class="date">$date$</span>
   </div>
   $endfor$
-
-  $for(snaps)$
-  <div class="event event-snap" style="order: 1;">
-    <div class="thumbnail"><img src="$img$"></img></div>
-    <span class="category"><a href="/snap.html">Snap</a></span>
+  
+  $for(books)$
+  <div class="event event-book">
+    <div class="img"></div>
+    <span class="category"><a href="/read.html">Read</a></span>
     <h2 class="title">$title$</h2>
     <span class="date">$date$</span>
   </div>

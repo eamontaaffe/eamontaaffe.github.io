@@ -36,6 +36,11 @@ body {
     padding-top: 56px;
     background-color: $background-color;
     color: $primary-color;
+
+    @media (max-width: $mobile-break-point) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
 }
 
 header {
@@ -59,8 +64,8 @@ header {
         background-color: $background-color;
 
         @media (max-width: $mobile-break-point) {
-            margin-left: 20px;
-            margin-right: 20px;
+            margin-left: 24px;
+            margin-right: 24px;
         }
     }
 
@@ -190,19 +195,34 @@ nav {
 }
 
 .events {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 24px;
+    padding-top: 24px;
+
+    @media (max-width: $mobile-break-point) {
+        display: flex;
+        flex-direction: column;
+    }
 
     .event {
         border-bottom: solid 1px $primary-color;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        padding-top: 24pxy;
+        padding-bottom: 24px;
+
+        &:first-child {
+            grid-column-start: 2;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 3;
+        }
 
         .thumbnail {
             position: relative;
             width: 100%;
             padding-bottom: 75%;
             overflow: hidden;
+            margin-bottom: 16px;
         }
         .thumbnail img {
             position: absolute;
@@ -219,8 +239,9 @@ nav {
             height: auto;
         }
 
-        .category {
+        .category a {
             font-family: $heading-stack;
+            text-decoration: none;
         }
 
         .date {
