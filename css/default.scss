@@ -121,6 +121,7 @@ header {
     h1, h2, h3, h4, h5, h6, h7 {
         text-align: center;
         font-weight: 300;
+        word-break: break-all;
     }
 
     h1 {
@@ -191,6 +192,41 @@ nav {
 .events {
     display: flex;
     flex-direction: column;
+
+    .event {
+        border-bottom: solid 1px $primary-color;
+        padding-top: 16px;
+        padding-bottom: 16px;
+
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%;
+            overflow: hidden;
+        }
+        .thumbnail img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 100%;
+            width: auto;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        .thumbnail img.portrait {
+            width: 100%;
+            height: auto;
+        }
+
+        .category {
+            font-family: $heading-stack;
+        }
+
+        .date {
+            font-family: $heading-stack;
+        }
+    }
 
     .event-snap {
         img {
