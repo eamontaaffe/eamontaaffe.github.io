@@ -70,7 +70,7 @@ run = hakyll $ do
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/info.html" ctx
-        >>= loadAndApplyTemplate "templates/content.html" ctx
+        >>= loadAndApplyTemplate "templates/with-nav.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
   create ["read.html"] $ do
@@ -82,18 +82,37 @@ run = hakyll $ do
       booksState <-
         foldM foldBooks initialBooksState books
 
-      let ctx =
-            booksCtx books booksState
+      let ctx = booksCtx books booksState
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/read.html" ctx
-        >>= loadAndApplyTemplate "templates/content.html" ctx
+        >>= loadAndApplyTemplate "templates/with-nav.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+
+  create ["snap.html"] $ do
+    route idRoute
+    compile $ do
+      snaps <- recentFirst
+        =<< loadAll ("events/*.snap.jpg" .&&. hasVersion "empty")
+
+      let ctx = snapsCtx snaps
+
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/snaps.html" ctx
+        >>= loadAndApplyTemplate "templates/with-nav.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
 
 -- Internal
 --------------------------------------------------------------------------------
 
+
+snapsCtx :: [Item String] -> Context String
+snapsCtx snaps
+  =  listField "snaps" snapCtx (return snaps)
+  <> boolField "snap" (\_-> True)
+  <> constField "title" "Snaps"
+  <> defaultContext
 
 indexCtx :: [Item String] -> [Item String] -> [Item String] -> [Item String]
          -> Context String

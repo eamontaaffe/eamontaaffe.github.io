@@ -5,7 +5,7 @@ $body-stack         : 'Poppins', sans-serif;
 $primary-color      : black;
 $background-color   : white;
 $accent-color       : blue;
-$mobile-break-point : 600px;
+$mobile-break-point : 900px;
 
 @mixin heading-hyperlink {
     a {
@@ -195,32 +195,32 @@ nav {
 }
 
 .events {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 24px;
     padding-top: 24px;
+    max-width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 24px;
 
     @media (max-width: $mobile-break-point) {
-        display: flex;
-        flex-direction: column;
+        display: block;
     }
 
     .event {
         border-bottom: solid 1px $primary-color;
-        padding-top: 24pxy;
+        padding-top: 24px;
         padding-bottom: 24px;
+        display: flex;
+        flex-direction: row;
 
-        &:first-child {
-            grid-column-start: 2;
-            grid-column-end: 4;
-            grid-row-start: 1;
-            grid-row-end: 3;
+        .info {
+            margin-left: 24px;
         }
 
         .thumbnail {
             position: relative;
-            width: 100%;
-            padding-bottom: 75%;
+            width: 36%;
+            padding-bottom: 27%;
             overflow: hidden;
             margin-bottom: 16px;
         }
@@ -252,6 +252,37 @@ nav {
     .event-snap {
         img {
             width: 100%;
+        }
+    }
+}
+
+.snaps {
+    .snap {
+        margin-bottom: 40px;
+
+        .date {
+            text-align: center;
+        }
+
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            padding-bottom: 70%;
+            overflow: hidden;
+        }
+        .thumbnail img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 100%;
+            width: auto;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        .thumbnail img.portrait {
+            width: 100%;
+            height: auto;
         }
     }
 }
