@@ -1,9 +1,10 @@
 <nav>
   <ul>
     <li><a href="/" $if(home)$ class="active" $endif$>Home</a></li>
-    <li class="hidden-on-desktop"><a href="/information.html" $if(info)$ class="active" $endif$>Information</a></li>
+    <li class="hidden-on-desktop">
+      <a href="/information.html" $if(info)$ class="active" $endif$>Information</a>
+    </li>
     <li><a href="/read.html" $if(read)$ class="active" $endif$>Read</a></li>
-    <li><a href="/write.html" $if(write)$ class="active" $endif$>Write</a></li>
     <li><a href="/snap.html" $if(snap)$ class="active" $endif$>Snap</a></li>
     <li><a href="/travel.html" $if(travel)$ class="active" $endif$>Travel</a></li>
   </ul>

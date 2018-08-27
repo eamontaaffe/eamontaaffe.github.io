@@ -102,6 +102,14 @@ run = hakyll $ do
         >>= loadAndApplyTemplate "templates/with-nav.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
+  create ["travel.html"] $ do
+    route idRoute
+    compile $ do
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/travel.html" defaultContext
+        >>= loadAndApplyTemplate "templates/with-nav.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+
 
 -- Internal
 --------------------------------------------------------------------------------
