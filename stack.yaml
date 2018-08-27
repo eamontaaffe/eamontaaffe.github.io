@@ -44,9 +44,9 @@ extra-deps: [
  "hlibsass-0.1.7.0"
 ]
 
-flags:
-  hlibsass:
-    externalLibsass: true
+# flags:
+#   hlibsass:
+#     externalLibsass: true
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

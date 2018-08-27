@@ -108,7 +108,7 @@ header {
 }
 
 .content {
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
     font-family: $body-stack;
     font-weight: 300;
@@ -284,5 +284,33 @@ nav {
             width: 100%;
             height: auto;
         }
+    }
+}
+
+.travel {
+    .world {
+        width: 100%;
+        height: auto;
+    }
+    
+    .land {
+	fill: $background-color;
+	fill-opacity: 1;
+	stroke: $primary-color;
+	stroke-opacity: 1;
+	stroke-width: 1;
+    }
+
+    .land:hover {
+        fill: $primary-color;
+        fill-opacity: 0.5;
+    }
+
+    ul {
+        text-align: center;
+        list-style: none;
+        line-height: 200%;
+        padding: 0;
+        list-style-type: none;
     }
 }

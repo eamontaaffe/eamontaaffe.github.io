@@ -13,6 +13,7 @@ import Control.Monad      (foldM)
 import Text.Read          (readMaybe)
 import Network.URI.Encode (encode)
 import Text.Regex
+import Data.List          (intercalate)
 
 -- Exposed
 --------------------------------------------------------------------------------
@@ -105,14 +106,40 @@ run = hakyll $ do
   create ["travel.html"] $ do
     route idRoute
     compile $ do
+      travels <- recentFirst
+        =<< loadAll "events/*.travel.md"
+
+      let ctx = travelsCtx travels
+
       makeItem ""
-        >>= loadAndApplyTemplate "templates/travel.html" defaultContext
-        >>= loadAndApplyTemplate "templates/with-nav.html" defaultContext
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/travel.html" ctx
+        >>= loadAndApplyTemplate "templates/with-nav.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
 
 
 -- Internal
 --------------------------------------------------------------------------------
+
+
+travelCtx :: Context String
+travelCtx
+  =  dateField "date" "%Y"
+  <> defaultContext
+
+
+travelsCtx :: [Item String] -> Context String
+travelsCtx travels
+  =  constField "title" "Travel"
+  <> field "country-ids" getCountryIds
+  <> listField "travels" travelCtx (return travels)
+  <> defaultContext
+  where
+    getCountryIds _ = do
+      codes <-
+        mapM (\t -> getMetadataField' (itemIdentifier t) "code") $
+          travels :: Compiler [String]
+
+      return . intercalate ", " . map ("#" ++) $ codes
 
 
 snapsCtx :: [Item String] -> Context String
