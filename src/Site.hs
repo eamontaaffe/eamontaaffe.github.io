@@ -4,22 +4,27 @@
 module Site where
 
 
+import Control.Monad      (foldM)
+import Data.Char          (toLower)
+import Data.Foldable      (foldrM)
+import Data.List          (intercalate)
+import Data.Maybe         (fromMaybe)
+import Data.Monoid        ((<>))
 import Hakyll
 import Hakyll.Web.Sass    (sassCompiler)
-import Data.Monoid        ((<>))
-import Data.Maybe         (fromMaybe)
-import Data.Char          (toLower)
-import Control.Monad      (foldM)
-import Text.Read          (readMaybe)
 import Network.URI.Encode (encode)
+import Text.Read          (readMaybe)
 import Text.Regex
-import Data.List          (intercalate)
 
 -- Exposed
 --------------------------------------------------------------------------------
 
 run :: IO ()
 run = hakyll $ do
+  match "now.json" $ do
+    route idRoute
+    compile copyFileCompiler
+  
   match "templates/*" $
     compile templateBodyCompiler
 
@@ -109,7 +114,10 @@ run = hakyll $ do
       travels <- recentFirst
         =<< loadAll "events/*.travel.md"
 
-      let ctx = travelsCtx travels
+      codes <-
+        mapM (\t -> getMetadataField' (itemIdentifier t) "code") travels
+
+      let ctx = travelsCtx travels codes
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/travel.html" ctx
@@ -126,12 +134,12 @@ travelCtx
   =  dateField "date" "%Y"
   <> defaultContext
 
-
-travelsCtx :: [Item String] -> Context String
-travelsCtx travels
+travelsCtx :: [Item String] -> [String] -> Context String
+travelsCtx travels codes
   =  constField "title" "Travel"
   <> field "country-ids" getCountryIds
   <> listField "travels" travelCtx (return travels)
+  <> visitedCtx
   <> defaultContext
   where
     getCountryIds _ = do
@@ -140,6 +148,9 @@ travelsCtx travels
           travels :: Compiler [String]
 
       return . intercalate ", " . map ("#" ++) $ codes
+
+    visitedCtx =
+      mconcat $ map (\c -> boolField c (\_-> True)) codes
 
 
 snapsCtx :: [Item String] -> Context String

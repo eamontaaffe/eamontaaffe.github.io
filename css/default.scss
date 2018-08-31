@@ -312,9 +312,12 @@ nav {
 	stroke-width: 1;
     }
 
+    .land.visited {
+        fill: $primary-color;
+    }
+
     .land:hover, .land.active {
-        fill: $accent-color !important;
-        stroke: $accent-color;
+        fill: $accent-color;
     }
 
     .countries {
