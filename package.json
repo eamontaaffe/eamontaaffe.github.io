@@ -1,0 +1,16 @@
+{
+  "name": "eamons-site",
+  "version": "1.0.0",
+  "description": "Eamon's website",
+  "main": "none",
+  "repository": "https://github.com/eamontaaffe/eamontaaffe.github.io.git",
+  "author": "Eamon Taaffe <eamontaaffe@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "now": "^11.4.0"
+  },
+  "scripts": {
+    "deploy": "now _site"
+  }
+}
