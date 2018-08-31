@@ -27,6 +27,15 @@ a {
     color: $accent-color;
 }
 
+::selection {
+    background: $accent-color;
+    color: $background-color;
+}
+::-moz-selection {
+    background: $accent-color;
+    color: $background-color;
+}
+
 body {
     font-family: $body-stack;
     padding: 0;
@@ -288,6 +297,8 @@ nav {
 }
 
 .travel {
+    padding-bottom: 64px;
+
     .world {
         width: 100%;
         height: auto;
@@ -301,9 +312,9 @@ nav {
 	stroke-width: 1;
     }
 
-    .land:hover {
-        fill: $primary-color;
-        fill-opacity: 0.5;
+    .land:hover, .land.active {
+        fill: $accent-color !important;
+        stroke: $accent-color;
     }
 
     .countries {
@@ -314,5 +325,9 @@ nav {
         &:not(:last-child):after {
             content: ",  ";
         }
+    }
+
+    .country.active {
+        color: $accent-color;
     }
 }
