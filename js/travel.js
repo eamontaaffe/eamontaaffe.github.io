@@ -33,6 +33,10 @@ var onLandMouseout = function (event) {
   );
 };
 
+var onLandClick = function (event) {
+  return alert(event.target.getAttribute("title"));
+};
+
 var landUpdate = function (el) {
   el.addEventListener(
     "mouseover",
@@ -42,6 +46,11 @@ var landUpdate = function (el) {
   el.addEventListener(
     "mouseout",
     onLandMouseout,
+  );
+
+  el.addEventListener(
+    "click",
+    onLandClick,
   );
 };
 
@@ -102,5 +111,3 @@ var countryUpdate = function (el) {
 var countries = document.getElementsByClassName("country");
 
 forEachElement(countries, countryUpdate);
-
-
