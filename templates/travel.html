@@ -7,13 +7,11 @@
 
   $partial("templates/world.svg")$
 
-  <h2>Trips</h2>
+  <h2>Countries</h2>
 
-  <ul>
+  <p class="countries">
     $for(travels)$
-    <li>
-      <b>$country$</b> in $date$
-    </li>
+    <span class="country">$country$</span>
     $endfor$
-  </ul>
+  </p>
 <div>
