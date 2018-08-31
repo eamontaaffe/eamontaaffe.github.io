@@ -11,6 +11,8 @@
     "now": "^11.4.0"
   },
   "scripts": {
-    "deploy": "now _site"
+    "preview": "now _site",
+    "alias": "now alias --local-config _site/now.json",
+    "deploy": "yarn preview && yarn alias"
   }
 }
