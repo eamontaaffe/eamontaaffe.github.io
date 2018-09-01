@@ -64,6 +64,38 @@ var maybe = {
   value: function(x) {
     return x.value;
   },
+
+  /**
+   * Flat map.
+   * @param {maybe a} x - A maybe type.
+   * @param {function} fn - Mapping function.
+   * @returns {maybe b} - Mapped maybe type.
+   */
+  flatMap: function (x, fn) {
+    switch(maybe.constructor(x)) {
+    case "Just":
+      return maybe.just(fn(maybe.value(x)));
+    case "Nothing":
+    default:
+      return maybe.nothing();
+    };
+  },
+
+  /**
+   * Retrieve the value contained or a default value instead.
+   * @param {maybe a} x - A maybe type.
+   * @param {a} els - The default value.
+   * @returns {a} The value contained in the maybe.
+   */
+  getOrDefault: function (x, els) {
+    switch(maybe.constructor(x)) {
+    case "Just":
+      return maybe.value(x);
+    case "Nothing":
+    default:
+      return els;
+    };
+  }
 };
 
 var event = {
@@ -87,7 +119,7 @@ var event = {
 
 /**
  * The state of the system.
- * @type {{ date: maybe Date, offset: number, zone: string }} state
+ * @type {{ maybeDate: maybe Date, offset: number, zone: string }} state
  */
 
 /**
@@ -98,7 +130,7 @@ var event = {
  */
 var initialState = function(offset, zone) {
   return {
-    date: maybe.nothing(),
+    maybeDate: maybe.nothing(),
     offset: offset,
     zone: zone,
   };
@@ -126,19 +158,16 @@ var padDigit = function(x, l) {
  * @param {string} zone - The timezone string.
  */
 var formatTime = function(client, offset, zone) {
-  
-
   let tzDiff = offset * 60 + client.getTimezoneOffset();
   let now = new Date(client.getTime() + tzDiff * 60 * 1000);
 
-  
   let h = now.getHours();
   let H = padDigit(h, 2);
   let m = now.getMinutes();
   let M = padDigit(m, 2);
   let s = now.getSeconds();
   let S = padDigit(s, 2);
-  
+
   return H + ":" +
     M + ":" +
     S + " " +
@@ -151,17 +180,22 @@ var formatTime = function(client, offset, zone) {
  * @returns {string} The innerHTML to be rendered.
  */
 var view = function(state) {
-  var date = state.date;
+  var maybeDate = state.maybeDate;
   var zone = state.zone;
   var offset = state.offset;
-  
-  switch(maybe.constructor(date)) {
-  case "Just":
-    return formatTime(maybe.value(date), offset, zone);
-  case "Nothing":
-  default:
-    return "__:__:__ ____";
-  };
+
+  /* TODO: Rather than pattern matching here you could flatMap maybe,
+   * then use a getOrDefault to provide a default mapping if date doesn't
+   * exist. It will end up with a more functional style. */
+
+  var maybeTime = maybe.flatMap(
+    maybeDate,
+    function(date) { return formatTime(date, offset, zone); }
+  );
+
+  var time = maybe.getOrDefault(maybeTime, "__:__:__ ___");
+
+  return time;
 };
 
 /*** UPDATE ***/
@@ -176,7 +210,7 @@ var update = function(state, e) {
   return {
     offset: state.offset,
     zone: state.zone,
-    date: maybe.just(event.value(e)),
+    maybeDate: maybe.just(event.value(e)),
   };
 };
 
