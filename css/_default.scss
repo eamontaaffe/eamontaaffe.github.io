@@ -1,0 +1,92 @@
+a {
+    color: $accent-color;
+}
+
+::selection {
+    background: $accent-color;
+    color: $background-color;
+}
+::-moz-selection {
+    background: $accent-color;
+    color: $background-color;
+}
+
+body {
+    font-family: $body-stack;
+    padding: 0;
+    margin: 0;
+    padding-left: 56px;
+    padding-right: 56px;
+    padding-top: 56px;
+    background-color: $background-color;
+    color: $primary-color;
+
+    @media (max-width: $mobile-break-point) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+header {
+    font-family: $heading-stack;
+    height: 56px;
+    line-height: 56px;
+    text-align: center;
+    font-size: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+
+    @include heading-hyperlink;
+
+    .container {
+        margin-left: 56px;
+        margin-right: 56px;
+        border-bottom: solid 1px;
+        background-color: $background-color;
+
+        @media (max-width: $mobile-break-point) {
+            margin-left: 24px;
+            margin-right: 24px;
+        }
+    }
+
+    .left {
+        float: left;
+        width: 150px;
+        text-align: left;
+
+        @media (max-width: $mobile-break-point) {
+            display: none;
+        }
+    }
+
+    .center {
+        width: 150px;
+        text-align: center
+    }
+
+    .right {
+        float: right;
+        width: 150px;
+        text-align: right;
+
+        @media (max-width: $mobile-break-point) {
+            display: none;
+        }
+    }
+
+    span.active a{
+        color: $accent-color;
+    }
+
+    span.active a:hover {
+        color: $background-color
+    }
+
+    span.active a:active {
+        color: $accent-color
+    }
+}

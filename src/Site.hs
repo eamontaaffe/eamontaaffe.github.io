@@ -31,7 +31,7 @@ run = hakyll $ do
   scssDependency <- makePatternDependency "css/*.scss"
 
   rulesExtraDependencies [scssDependency] $ do
-    match "css/default.scss" $ do
+    match "css/index.scss" $ do
       route $ setExtension "css"
       compile sassCompiler
 
