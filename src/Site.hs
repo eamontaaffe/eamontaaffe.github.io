@@ -64,7 +64,7 @@ run = hakyll $ do
             indexCtx books blogs snaps infos
 
       makeItem ""
-        >>= loadAndApplyTemplate "templates/index.html" ctx
+        >>= loadAndApplyTemplate "templates/front-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
 
   create ["information.html"] $ do
