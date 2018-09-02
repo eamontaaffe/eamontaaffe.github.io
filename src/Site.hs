@@ -28,10 +28,12 @@ run = hakyll $ do
   match "templates/*" $
     compile templateBodyCompiler
 
-  match "css/*.scss" $ do
-    route $ setExtension "css"
-    let compressCssItem = fmap compressCss
-    compile (compressCssItem <$> sassCompiler)
+  scssDependency <- makePatternDependency "css/*.scss"
+
+  rulesExtraDependencies [scssDependency] $ do
+    match "css/default.scss" $ do
+      route $ setExtension "css"
+      compile sassCompiler
 
   match "js/*" $ do
     route idRoute
