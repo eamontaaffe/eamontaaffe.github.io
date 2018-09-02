@@ -10,7 +10,7 @@
  * lines of code to make a clock tick. But it was a good experience writing in
  * a functional style without using a framework. It is interesting to think
  * about how you can use regular object to represent algebraic data types.
- * Immitating some of the funcionality you get for free in a framework like elm
+ * Immitating some of the functionality you get for free in a framework like elm
  * such as subscribing to time updates was an interesting experience too.
  *
  * @module clock
@@ -235,9 +235,9 @@ var tick = function (el, state) {
 
 /**
  * Used to instantiate the system onto an element.
- * @param {Element} - The root element.
- * @param {number} - The timezone offset in hours from UTC.
- * @param {string} - The timezone string.
+ * @param {Element} el - The root element.
+ * @param {number} offset - The timezone offset in hours from UTC.
+ * @param {string} zone - The timezone string.
  */
 var renderClock = function(el, offset, zone) {
   var state = initialState(offset, zone);
