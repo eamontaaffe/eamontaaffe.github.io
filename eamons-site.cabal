@@ -10,6 +10,7 @@ library
                   , hakyll-sass
                   , uri-encode
                   , regex-compat
+                  , split
   ghc-options:      -threaded
   default-language: Haskell2010
   exposed-modules:  Site

@@ -3,6 +3,8 @@
         margin-bottom: 40px;
 
         .date {
+            font-family: $heading-stack;
+            font-size: 100%;
             text-align: center;
         }
 
@@ -27,7 +29,9 @@
             height: auto;
         }
     }
-}.snaps {
+}
+
+.snaps {
     .snap {
         margin-bottom: 40px;
 

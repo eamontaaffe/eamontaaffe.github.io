@@ -8,6 +8,7 @@ import Control.Monad      (foldM)
 import Data.Char          (toLower)
 import Data.Foldable      (foldrM)
 import Data.List          (intercalate)
+import Data.List.Split    (splitOn)
 import Data.Maybe         (fromMaybe)
 import Data.Monoid        ((<>))
 import Hakyll
@@ -55,13 +56,14 @@ run = hakyll $ do
   create ["index.html"] $ do
     route idRoute
     compile $ do
-      books <- loadAll "events/*.book.md"
-      blogs <- loadAll "events/*.blog.md"
-      infos <- loadAll "events/*.info.md"
-      snaps <- loadAll ("events/*.snap.jpg" .&&. hasVersion "empty")
+      books   <- recentFirst =<< loadAll "events/*.book.md"
+      infos   <- recentFirst =<< loadAll "events/*.info.md"
+      snaps   <- recentFirst =<<
+        loadAll ("events/*.snap.jpg" .&&. hasVersion "empty")
+      travels <- recentFirst =<< loadAll "events/*.travel.md"
 
       let ctx =
-            indexCtx books blogs snaps infos
+            indexCtx books snaps infos travels
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/front-page.html" ctx
@@ -162,14 +164,17 @@ snapsCtx snaps
   <> constField "title" "Snaps"
   <> defaultContext
 
-indexCtx :: [Item String] -> [Item String] -> [Item String] -> [Item String]
+indexCtx :: [Item String]
+         -> [Item String] 
+         -> [Item String] 
+         -> [Item String]
          -> Context String
-indexCtx books blogs snaps infos
+indexCtx books snaps infos travels
   =  constField "title" "Eamon Taaffe"
-  <> listField "books" eventCtx (return books)
-  <> listField "blogs" eventCtx (return blogs)
+  <> listField "books" eventCtx (return . take 5 $ books)
   <> listField "snaps" snapCtx (return snaps)
-  <> listField "infos" eventCtx (return infos)
+  <> listField "infos" eventCtx (return . take 1 $ infos)
+  <> listField "travels" travelCtx (return . take 1 $ travels)
   <> defaultContext
 
 
@@ -178,6 +183,7 @@ eventCtx
   =  dateField "date" "%Y.%m.%d"
   <> field "category" getCategoryField
   <> lowercaseFunctionField
+  <> snippetFunctionField
   <> defaultContext
 
 snapCtx :: Context String
@@ -305,3 +311,11 @@ lowercaseFunctionField =
   functionField "lowercase" fn
   where
     fn xs _ = return . unwords . map (map toLower) $ xs
+
+
+snippetFunctionField :: Context String
+snippetFunctionField =
+  functionField "snippet" fn
+  where
+    d = "</p>"
+    fn xs _ = return . (++ d) . head . splitOn d . unwords $ xs

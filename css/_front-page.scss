@@ -1,2 +1,17 @@
 .front-page {
+    .tile {
+        border-bottom: solid 1px $primary-color;
+    }
+
+    .category a {
+        @include heading-hyperlink;
+        font-family: $heading-stack;
+        color: $accent-color;
+        text-decoration: none;
+    }
+
+    .date {
+        font-family: $heading-stack;
+        font-size: 100%;
+    }
 }
