@@ -12,6 +12,16 @@
     </div>
     $endfor$
 
+    $for(travels)$
+    <div class="tile tile-travel">
+      <p class="category">
+        <a href="/travel.html">Travel</a>
+      </p>
+      <h2 class="title">I'm currently in $country$.</h2>
+      <p class="date">$date$</p>
+    </div>
+    $endfor$
+
     <div class="tile tile-read">
       <span class="category">
         <a href="/read.html">Read</a>
@@ -28,17 +38,6 @@
       </div>
       $endfor$
     </div>
-
-    $for(travels)$
-    <div class="tile tile-travel">
-      <p class="category">
-        <a href="/travel.html">Travel</a>
-      </p>
-      <h2 class="title">Currently In</h2>
-      <div class="body">$country$</div>
-      <p class="date">$date$</p>
-    </div>
-    $endfor$
   </div>
 
   <div class="column-right">
