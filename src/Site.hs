@@ -7,10 +7,11 @@ module Site where
 import Control.Monad      (foldM)
 import Data.Char          (toLower)
 import Data.Foldable      (foldrM)
-import Data.List          (intercalate)
+import Data.List          (intercalate, sortBy)
 import Data.List.Split    (splitOn)
 import Data.Maybe         (fromMaybe)
 import Data.Monoid        ((<>))
+import Data.Ord           (compare)
 import Hakyll
 import Hakyll.Web.Sass    (sassCompiler)
 import Network.URI.Encode (encode)
@@ -53,6 +54,8 @@ run = hakyll $ do
     compile $ do
       makeItem "" :: Compiler (Item String)
 
+  tz <- getTimezone
+
   create ["index.html"] $ do
     route idRoute
     compile $ do
@@ -67,7 +70,7 @@ run = hakyll $ do
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/front-page.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" (defaultCtx tz)
 
   create ["information.html"] $ do
     route idRoute
@@ -81,7 +84,7 @@ run = hakyll $ do
       makeItem ""
         >>= loadAndApplyTemplate "templates/info.html" ctx
         >>= loadAndApplyTemplate "templates/with-nav.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" (defaultCtx tz)
 
   create ["read.html"] $ do
     route idRoute
@@ -97,7 +100,7 @@ run = hakyll $ do
       makeItem ""
         >>= loadAndApplyTemplate "templates/read.html" ctx
         >>= loadAndApplyTemplate "templates/with-nav.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" (defaultCtx tz)
 
   create ["snap.html"] $ do
     route idRoute
@@ -110,7 +113,7 @@ run = hakyll $ do
       makeItem ""
         >>= loadAndApplyTemplate "templates/snaps.html" ctx
         >>= loadAndApplyTemplate "templates/with-nav.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" (defaultCtx tz)
 
   create ["travel.html"] $ do
     route idRoute
@@ -126,12 +129,17 @@ run = hakyll $ do
       makeItem ""
         >>= loadAndApplyTemplate "templates/travel.html" ctx
         >>= loadAndApplyTemplate "templates/with-nav.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" (defaultCtx tz)
 
 
 -- Internal
 --------------------------------------------------------------------------------
 
+defaultCtx :: (String, String) -> Context String
+defaultCtx (offset, zone)
+  =  constField "offset" (show offset)
+  <> constField "zone" zone
+  <> defaultContext
 
 travelCtx :: Context String
 travelCtx
@@ -319,3 +327,21 @@ snippetFunctionField =
   where
     d = "</p>"
     fn xs _ = return . (++ d) . head . splitOn d . unwords $ xs
+
+
+recentMetadataFirst :: [(Identifier, Metadata)] -> [(Identifier, Metadata)]
+recentMetadataFirst xs =
+  sortBy ordering xs
+  where
+    ordering :: (Identifier, Metadata) -> (Identifier, Metadata) -> Ordering
+    ordering (_, m1) (_, m2) =
+      compare (lookupString "date" m2) (lookupString "date" m1)
+
+
+getTimezone :: MonadMetadata m => m (String, String)
+getTimezone = do
+  xs <- getAllMetadata "events/*.travel.md"
+  let m      = snd . head . recentMetadataFirst $ xs
+  let offset = fromMaybe "10" . lookupString "offset" $ m
+  let zone   = fromMaybe "AEST" . lookupString "zone" $ m
+  return (offset, zone)
