@@ -143,7 +143,7 @@ defaultCtx (offset, zone)
 
 travelCtx :: Context String
 travelCtx
-  =  dateField "date" "%Y"
+  =  dateField "date" "%Y.%m.%d"
   <> defaultContext
 
 travelsCtx :: [Item String] -> [String] -> Context String
@@ -180,7 +180,7 @@ indexCtx :: [Item String]
 indexCtx books snaps infos travels
   =  constField "title" "Eamon Taaffe"
   <> listField "books" eventCtx (return . take 5 $ books)
-  <> listField "snaps" snapCtx (return snaps)
+  <> listField "snaps" snapCtx (return . take 3 $ snaps)
   <> listField "infos" eventCtx (return . take 1 $ infos)
   <> listField "travels" travelCtx (return . take 1 $ travels)
   <> defaultContext
@@ -220,7 +220,6 @@ getCategoryFromType "info" = Just "Information"
 getCategoryFromType "snap" = Just "Snap"
 getCategoryFromType "blog" = Just "Blog"
 getCategoryFromType _      = Nothing
-
 
 getCategoryFromPath :: String -> Maybe String
 getCategoryFromPath p =

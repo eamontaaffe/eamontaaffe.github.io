@@ -1,4 +1,6 @@
 <div class="front-page">
+
+  <div class="column column-left">
     $for(infos)$
     <div class="tile tile-info">
       <p class="category">
@@ -11,29 +13,19 @@
     $endfor$
 
     <div class="tile tile-read">
-      <p class="category">
+      <span class="category">
         <a href="/read.html">Read</a>
-      </p>
+      </span>
+
       <h2 class="title">Latest Reads</h2>
 
-      <ol>
-        $for(books)$
-        <li><div><h3>$title$</h3> <span class="author">by $author$</span></div></li>
-        $endfor$
-      </ol>
-    </div>
-    
-    <div class="tile tile-snap">
-      <p class="category">
-        <a href="/snap.html">Snaps</a>
-      </p>
-      <h2 class="title">Latest Snaps</h2>
-
-      <ol>
-        $for(snaps)$
-        <li>$title$</li>
-        $endfor$
-      </ol>
+      $for(books)$
+      <div class="book">
+        <div class="counter"></div>
+        <span class="title">$title$</span>
+        <span class="author">by $author$</span>
+      </div>
+      $endfor$
     </div>
 
     $for(travels)$
@@ -41,8 +33,22 @@
       <p class="category">
         <a href="/travel.html">Travel</a>
       </p>
-      <h2 class="title">Currently in</h2>
+      <h2 class="title">Currently In</h2>
       <div class="body">$country$</div>
+      <p class="date">$date$</p>
+    </div>
+    $endfor$
+  </div>
+
+  <div class="column-right">
+    $for(snaps)$
+    <div class="tile tile-snap">
+      <div class="thumbnail"><img src="$img$"></img></div>
+      <p class="category">
+        <a href="/snap.html">Snap</a>
+      </p>
+      <h2 class="title">$title$</h2>
+      <p class="date">$date$</p>
     </div>
     $endfor$
   </div>
