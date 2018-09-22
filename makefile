@@ -1,5 +1,5 @@
 NAME=eamons-site
-ID=master # $(shell uuidgen | tail -c 8 | tr '[:upper:]' '[:lower:]')
+ID=master# $(shell uuidgen | tail -c 8 | tr '[:upper:]' '[:lower:]')
 PROFILE=personal
 REF=$(NAME)-$(ID)
 BUCKET="s3://$(REF)/"
@@ -8,6 +8,8 @@ BUCKET="s3://$(REF)/"
 create: build stack upload url
 
 update: build upload url
+
+delete: stack-delete
 
 
 #####
