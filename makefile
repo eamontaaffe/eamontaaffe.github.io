@@ -21,12 +21,12 @@ url:
 
 upload:
 	@echo "Uploading website to bucket: $(BUCKET)"
-	@aws s3 sync _site/ $(BUCKET) --profile $(PROFILE) >:
+	@aws s3 sync _site/ $(BUCKET) --profile $(PROFILE) > /dev/null
 
 
 upload-clean:
 	@echo "Cleaning out bucket: $(BUCKET)"
-	@-aws s3 rm $(BUCKET) --profile $(PROFILE) --recursive >:
+	@-aws s3 rm $(BUCKET) --profile $(PROFILE) --recursive > /dev/null
 
 
 #####
@@ -46,28 +46,28 @@ stack-create:
 	--profile $(PROFILE)																	\
 	--parameters ParameterKey=Name,ParameterValue=$(REF)	\
 	--template-body file://cloudformation.yaml						\
-	--capabilities CAPABILITY_IAM >: 2>:
+	--capabilities CAPABILITY_IAM > /dev/null 2> /dev/null
 
 
 stack-create-wait:
 	@echo "Waiting for stack create to complete: $(REF)"
 	@-aws cloudformation wait stack-create-complete \
 	--stack-name $(REF)															\
-	--profile $(PROFILE) >: 2>:
+	--profile $(PROFILE) > /dev/null 2> /dev/null
 
 
 stack-delete: upload-clean
 	@echo "Deleting stack: $(REF)"
 	@-aws cloudformation delete-stack \
 	--stack-name $(REF)								\
-	--profile $(PROFILE) >: 2>:
+	--profile $(PROFILE) > /dev/null 2> /dev/null
 
 
 stack-delete-wait:
 	@echo "Waiting for stack delete to complete: $(REF)"
 	@-aws cloudformation wait stack-delete-complete \
 	--stack-name $(REF)															\
-	--profile $(PROFILE) >: 2>:
+	--profile $(PROFILE) > /dev/null 2> /dev/null
 
 
 #####
@@ -75,10 +75,10 @@ stack-delete-wait:
 
 build:
 	@echo "Building project"
-	@-stack build >: 2>:
-	@-stack exec site-exe rebuild >: 2>:
+	@-stack build > /dev/null 2> /dev/null
+	@-stack exec site-exe rebuild > /dev/null 2> /dev/null
 
 
 build-clean:
 	@echo "Cleaning project"
-	@-stack clean >: 2>:
+	@-stack clean > /dev/null 2> /dev/null

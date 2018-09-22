@@ -23,10 +23,6 @@ import Text.Regex
 
 run :: IO ()
 run = hakyll $ do
-  match "now.json" $ do
-    route idRoute
-    compile copyFileCompiler
-  
   match "templates/*" $
     compile templateBodyCompiler
 
