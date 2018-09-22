@@ -17,12 +17,15 @@
     h1, h2, h3, h4, h5, h6, h7 {
         text-align: center;
         font-weight: 300;
-        word-break: break-all;
     }
 
     h1 {
         font-size: 64px;
         line-height: 115%;
+
+        @media (max-width: $mobile-break-point) {
+            font-size: 40px;
+        }
     }
 
     .subtitle {
