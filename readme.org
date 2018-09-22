@@ -3,17 +3,23 @@
 #+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
-** TODO Check mobile compatability
 ** TODO Display previous versions when you click on "Edited x times"
 ** TODO Write better information page copy
-** TODO Get current timezone from events
-** TODO Front page feed
-** TODO Write page
-** TODO Snap page
-** TODO Travel page
 ** CANCELED Render multiple blog post pages from events                :hard:
    - State "CANCELED"   from "TODO"       [2018-08-16 Thu 22:10] \\
      Maybe later
+** DONE Check mobile compatability
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:11]
+** DONE Get current timezone from events
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:11]
+** DONE Front page feed
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:11]
+** DONE Write page
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:12]
+** DONE Snap page
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:12]
+** DONE Travel page
+   - State "DONE"       from "TODO"       [2018-09-22 Sat 18:12]
 ** DONE Highlight current page in navigation
    - State "DONE"       from "TODO"       [2018-08-18 Sat 16:15]
 ** DONE Center header title properly
