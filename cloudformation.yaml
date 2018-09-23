@@ -3,26 +3,47 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "Deployment of a static site."
 
 Parameters:
-  Name:
+  Domain:
     Type: String
 
 Resources:
-  Bucket:
+  BucketPrimary:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: "index.html"
-      BucketName: !Ref Name
+      BucketName: !Ref Domain
 
-  BucketPolicy:
+  BucketSecondary:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: !Ref Domain
+      BucketName: !Join [".", [ "www", !Ref Domain ]]
+
+  BucketPrimaryPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref Bucket
+      Bucket: !Ref BucketPrimary
       PolicyDocument:
         Statement:
           - Sid: PublicReadForGetBucketObjects
             Effect: Allow
             Principal: '*'
             Action: s3:GetObject
-            Resource: !Join ['', ['arn:aws:s3:::', !Ref 'Bucket', /*]]
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref 'Domain', /*]]
+
+  BucketSecondaryPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref BucketSecondary
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Join ['', ['arn:aws:s3:::', 'www.', !Ref 'Domain', /*]]
