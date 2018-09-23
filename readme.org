@@ -8,6 +8,7 @@
 ** TODO Add analytics to website
 ** TODO Display previous versions when you click on "Edited x times"
 ** TODO Write better information page copy
+** TODO Add CI
 ** DONE Change dns to aws
    - State "DONE"       from "TODO"       [2018-09-23 Sun 21:35]
 ** DONE Deploy to aws s3 static site
