@@ -3,6 +3,9 @@
 #+TODO: TODO(t!) | DONE(d!) CANCELED(c@)
 
 * To do
+** TODO Secure website with SSL certificate
+** TODO Change titles of page so that are uppercase
+** TODO Add analytics to website
 ** TODO Display previous versions when you click on "Edited x times"
 ** TODO Write better information page copy
 ** DONE Change dns to aws
