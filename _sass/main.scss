@@ -31,6 +31,10 @@ p {
     line-height: 1.75em;
 }
 
+.content {
+    padding-bottom: 32px;
+}
+
 p:first-child{
     text-indent: 0;
 }
@@ -38,6 +42,7 @@ p:first-child{
 .about {
     font-style: italic;
     text-align: center;
+    padding-bottom: 32px;
 }
 
 .navigation-item {
