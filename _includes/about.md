@@ -1,0 +1,1 @@
+I'm Eamon, a software developer out of Melbourne, Australia. You can [email](mailto:{{ site.email }}) me, find me on [LinkedIn](https://www.linkedin.com/in/{{ site.linkedin }}) or reach out on [Github](https://www.github.com/{{ site.github }}).
