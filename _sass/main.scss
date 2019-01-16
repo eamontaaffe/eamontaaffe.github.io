@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lora');
 
-$primary-color: #212121;
-$background-color: #FAFAFA;
+$primary-color: black;
+$background-color: white;
 $accent-color: red;
 
 $indent: 32px;
@@ -17,6 +17,16 @@ body {
     padding-right: 16px;
     padding-top: 96px;
     padding-bottom: 64px;
+}
+
+::selection {
+    background: $accent-color;
+    color: $background-color;
+}
+
+::-mox-selection {
+    background: $accent-color;
+    color: $background-color;
 }
 
 h1 {
@@ -84,4 +94,18 @@ p:first-child{
 
 .navigation-ul {
     padding-left: 0;
+}
+
+.content {
+    ul {
+        line-height: 2em;
+        text-align: center;
+        padding-left: 0;
+        padding-top: 32px;
+        padding-bottom: 32px;
+
+        li {
+            list-style-type: none;
+        }
+    }
 }
