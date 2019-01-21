@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ site.title }}{% if page.title %} | {{ page.title }}{% endif %}</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+  </head>
+  <body>
+    {{ content }}
+    {% capture about %}{% include about.md %}{% endcapture %}
+    <div class="about">{{ about | markdownify }}</div>
+    <div class="navigation">{% include navigation.html %}</div>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css?family=Lora');
+
+$primary-color: black;
+$background-color: white;
+$accent-color: red;
+
+$indent: 32px;
+
+body {
+    background: $background-color;
+    color: $primary-color;
+    font-size: 1.10em;
+    font-family: 'Lora', serif;
+    max-width: 550px;
+    margin: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 96px;
+    padding-bottom: 64px;
+}
+
+::selection {
+    background: $accent-color;
+    color: $background-color;
+}
+
+::-mox-selection {
+    background: $accent-color;
+    color: $background-color;
+}
+
+h1 {
+    font-size: 2em;
+    padding-bottom: 48px;
+}
+
+h2 {
+    font-size: 1.35em;
+}
+
+h3 {
+    font-size: 1.15em;
+}
+
+p {
+    text-indent: $indent;
+    line-height: 1.75em;
+}
+
+a {
+    color: $primary-color;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: $accent-color;
+    text-decoration: underline;
+}
+
+.content {
+    padding-bottom: 32px;
+
+    p > img {
+        padding-top: 32px;
+        padding-bottom: 32px;
+        margin-left: -32px;
+        width: 100%;
+    }
+}
+
+p:first-child{
+    text-indent: 0;
+}
+
+.about {
+    font-style: italic;
+    text-align: center;
+    padding-bottom: 32px;
+}
+
+.navigation-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation-li {
+    list-style-type: none;
+
+    a {
+        font-weight: normal;
+        font-style: italic;
+    }
+}
+
+.navigation-ul {
+    padding-left: 0;
+}
+
+.content {
+    ul {
+        line-height: 2em;
+        text-align: center;
+        padding-left: 0;
+        padding-top: 32px;
+        padding-bottom: 32px;
+
+        li {
+            list-style-type: none;
+        }
+    }
+}
