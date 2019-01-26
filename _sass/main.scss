@@ -13,7 +13,7 @@ body {
     color: $primary-color;
     font-size: 1.10em;
     font-family: 'Lora', serif;
-    max-width: 550px;
+    max-width: 600px;
     margin: auto;
     padding-left: 16px;
     padding-right: 16px;
@@ -69,9 +69,19 @@ a:hover {
         margin-left: -32px;
         width: 100%;
     }
+
+    li {
+        list-style: none;
+
+        &:before {
+            content: "·";
+            padding-right: 8px;
+            margin-left: -14px;
+        }
+    }
 }
 
-p:first-child{
+p:first-child {
     text-indent: 0;
 }
 
