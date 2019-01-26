@@ -6,6 +6,8 @@ $accent-color: red;
 
 $indent: 32px;
 
+@import "./code";
+
 body {
     background: $background-color;
     color: $primary-color;
@@ -103,4 +105,8 @@ p:first-child{
         padding-top: 32px;
         padding-bottom: 32px;
     }
+}
+
+.highlight {
+    padding-left: 16px;;
 }
