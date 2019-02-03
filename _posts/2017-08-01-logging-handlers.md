@@ -3,7 +3,7 @@ layout: post
 ---
 
 Python's [logging module](https://docs.python.org/2/library/logging.html) is
-pretty cool. A lot of large project's use it, suck as the
+pretty cool. A lot of large project's use it, such as the
 [Spotify's Luigi](https://github.com/spotify/luigi) project. By using the
 logging module, we can keep all of the logging specific module in one place.
 This means that is really easy to print to the command line in development and
