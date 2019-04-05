@@ -24,7 +24,7 @@ Which prints out:
 ```
 
 
-To create our own reader we are going to make use of the [DataSourceV2](https://spark.apache.org/docs/2.4.0/api/scala/#org.apache.spark.sql.sources.v2.DataSourceV2) api which was introduced in Spark 2.3 and updated slightly in 2.4. 
+To create our own reader we are going to make use of the [`DataSourceV2`](https://spark.apache.org/docs/2.4.0/api/scala/#org.apache.spark.sql.sources.v2.DataSourceV2) api which was introduced in Spark 2.3 and updated slightly in 2.4. 
 
 There are many great articles explaining all the great things you can do with the api like [all](https://databricks.com/session/apache-spark-data-source-v2) [of](http://blog.madhukaraphatak.com/spark-datasource-v2-part-1/) [these](https://developer.ibm.com/code/2018/04/16/introducing-apache-spark-data-sources-api-v2/) [ones](https://issues.apache.org/jira/browse/SPARK-15689). I'm not going to go very deep, we are just building the *minimal* example. 
 
