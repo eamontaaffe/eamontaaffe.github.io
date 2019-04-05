@@ -61,7 +61,7 @@ class SimpleInputPartition extends InputPartition[InternalRow] {
 }
 ```
 
-And finally we get to to the the interesting bit. We read from a source similar to [observable stream](http://reactivex.io/documentation/observable.html). Whenever Spark calls the get function, we return the current row. Whenever Spark calls the next function we move to the next row. If have finished consuming the stream, we return false.
+And finally we get to to the the interesting bit. We read from a source similar to [observable stream](http://reactivex.io/documentation/observable.html). Whenever Spark calls the get function, we return the current row. Whenever Spark calls the next function we move to the next row. If we have finished consuming the stream, we return false.
 
 ```scala
 class SimpleInputPartitionReader extends InputPartitionReader[InternalRow] {
