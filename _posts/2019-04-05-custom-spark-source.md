@@ -1,5 +1,3 @@
-# Custom Spark Data Source
-
 Spark data sources are easy to create yourself. Today we are going to create the simplest possible spark source. 
 
 Our data source is going to create a list of 3 results with incremental id's. I would like to be able to read from the data source like so:
