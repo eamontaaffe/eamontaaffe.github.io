@@ -72,7 +72,7 @@ class SimpleInputPartitionReader extends InputPartitionReader[InternalRow] {
   def get = InternalRow(i)
   def close = Unit
 
-  def next = if (i < 10) {
+  def next = if (i < 3) {
     i += 1; true
   } else {
     false
