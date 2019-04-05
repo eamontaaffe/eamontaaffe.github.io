@@ -40,7 +40,7 @@ class SimpleSource extends DataSourceV2 with ReadSupport {
 Whenever we read a row from the data source it will have the one column named `id`. We want to read sequentially from a single source so we are only going to have a single partition.
 
 ```scala
-lass SimpleSourceReader extends DataSourceReader {
+class SimpleSourceReader extends DataSourceReader {
   def makePartition: InputPartition[InternalRow] =
     new SimpleInputPartition
 
