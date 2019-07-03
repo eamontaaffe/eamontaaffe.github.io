@@ -12,7 +12,7 @@ Why don't we just use an incremental number? Anytime there is a minor version, p
 
 The only thing that doesnt really work is major versions.
 
-On that note, I think we should get rid of major versions. If you break the api of the project, give it a new name. There is nothing wrong with calling a project `awesome-project-2`. I think creating an entirely new project conveys the fact that any other project's is not supported.
+On that note, I think we should get rid of major versions. If you break the api of the project, give it a new name. There is nothing wrong with calling a project `awesome-project-2` if you can't think of a new creative name. I think creating an entirely new project conveys the fact that any other project's api is not supported better than any versioning system ever could.
 
 So now what will this look like. Let's say I have a project `awesome-project` the sbt signature for this project will look like:
 
