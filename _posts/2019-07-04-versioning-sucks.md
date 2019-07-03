@@ -30,4 +30,4 @@ The npm versioning will look like this.
 }
 ```
 
-Let me know what you think, is this a terrible idea? ¯\\_(ツ)_/¯
+Let me know what you think, is this a terrible idea? ¯\\\_(ツ)\_/¯
