@@ -7,31 +7,24 @@ import Hakyll.Web.Sass (sassCompiler)
 
 main :: IO ()
 main = hakyll $ do
-    match "css/*.scss" $ do
-        route $ setExtension "css"
-        let compressCssItem = fmap compressCss
-        compile (compressCssItem <$> sassCompiler)
+  match "css/*.scss" $ do
+    route $ setExtension "css"
+    let compressCssItem = fmap compressCss
+    compile (compressCssItem <$> sassCompiler)
 
-    match "posts/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "_layouts/post.html"    postCtx
-            >>= loadAndApplyTemplate "_layouts/default.html" postCtx
-            >>= relativizeUrls
+  match "posts/*" $ do
+    route $ setExtension "html"
+    compile $ do
+      -- TODO: Need some way to feed the posts list into the template
+      -- without causing a circular dependency
+
+      pandocCompiler
+        >>= loadAndApplyTemplate "_layouts/post.html" postCtx
+        >>= loadAndApplyTemplate "_layouts/default.html" postCtx
+        >>= relativizeUrls
 
     -- match "index.html" $ do
-    --     route idRoute
-    --     compile $ do
-    --         posts <- recentFirst =<< loadAll "posts/*"
-    --         let indexCtx =
-    --                 listField "posts" postCtx (return posts) `mappend`
-    --                 constField "title" "Home"                `mappend`
-    --                 defaultContext
-
-    --         getResourceBody
-    --             >>= applyAsTemplate indexCtx
-    --             >>= loadAndApplyTemplate "_layouts/default.html" indexCtx
-    --             >>= relativizeUrls
+    -- TODO: Load the most recent post into the index.html
 
     match "_layouts/*" $ compile templateBodyCompiler
 
@@ -43,6 +36,6 @@ siteTitle =
 
 postCtx :: Context String
 postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    constField "siteTitle" siteTitle `mappend`
-    defaultContext
+  dateField "date" "%B %e, %Y" `mappend`
+  constField "siteTitle" siteTitle `mappend`
+  defaultContext
