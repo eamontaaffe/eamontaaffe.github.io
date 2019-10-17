@@ -1,15 +1,11 @@
-<!-- <ul> -->
-<!--     $for(posts)$ -->
-<!--         <li> -->
-<!--             <a href="$url$">$title$</a> - $date$ -->
-<!--         </li> -->
-<!--     $endfor$ -->
-<!-- </ul> -->
+
 <div class="navigation">
-  <ul>
+  <ul class="navigation-ul">
     $for(posts)$
-    <li>
-      $title$
+    <li class="navigation-li">
+      <a class="navigation-item" href="$url$">
+        <span>$title$</span>
+        <span>$date$, $year$<span>
     </li>
     $endfor$
   </ul>

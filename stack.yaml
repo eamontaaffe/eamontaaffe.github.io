@@ -1,4 +1,4 @@
-resolver: lts-14.8
+resolver: lts-14.10
 extra-deps:
   - hakyll-4.13.0.1
   - hakyll-sass-0.2.4
