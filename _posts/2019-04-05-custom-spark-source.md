@@ -1,3 +1,7 @@
+---
+layout: post
+---
+
 Spark data sources are easy to make yourself. Today we are going to create the simplest possible spark source. 
 
 Our data source produces a list of 3 results with incremental id's. We will be able to read from the data source like so:

@@ -1,6 +1,8 @@
 title: Eamon Taaffe
-permalink: /:title
+permalink: none
 email: eamon@taaffe.com.au
 linkedin: eamontaaffe
 github: eamontaaffe
 highlighter: rouge
+plugins:
+  - jekyll-sass-converter
