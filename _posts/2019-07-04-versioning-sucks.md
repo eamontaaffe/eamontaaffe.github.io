@@ -1,3 +1,7 @@
+---
+layout: post
+---
+
 Has anyone else realised that software versioning is really complicated? There are so many different approaches and implementations it can be hard to get your head around.
 
 - [SemVer](https://semver.org/)
